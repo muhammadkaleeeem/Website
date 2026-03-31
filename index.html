@@ -1,0 +1,1143 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>NetMaster — Learn Networking Like a Pro</title>
+<link href="https://fonts.googleapis.com/css2?family=Space+Mono:ital,wght@0,400;0,700;1,400&family=DM+Sans:wght@300;400;500;600&display=swap" rel="stylesheet">
+<style>
+:root {
+  --bg: #0a0f1e;
+  --bg2: #111827;
+  --bg3: #1a2236;
+  --card: #151e30;
+  --border: rgba(99,210,255,0.12);
+  --border2: rgba(99,210,255,0.25);
+  --accent: #63d2ff;
+  --accent2: #7c6fff;
+  --accent3: #2fffa0;
+  --accent4: #ff6b6b;
+  --accent5: #ffd166;
+  --text: #e8edf8;
+  --muted: #7a8aaa;
+  --mono: 'Space Mono', monospace;
+  --sans: 'DM Sans', sans-serif;
+  --radius: 12px;
+  --glow: 0 0 30px rgba(99,210,255,0.1);
+}
+*{margin:0;padding:0;box-sizing:border-box}
+html{scroll-behavior:smooth}
+body{background:var(--bg);color:var(--text);font-family:var(--sans);overflow-x:hidden;font-size:15px;line-height:1.6}
+/* --- SCROLLBAR --- */
+::-webkit-scrollbar{width:6px}::-webkit-scrollbar-track{background:var(--bg)}::-webkit-scrollbar-thumb{background:var(--border2);border-radius:3px}
+
+/* --- NAV --- */
+nav{position:fixed;top:0;left:0;right:0;z-index:100;background:rgba(10,15,30,0.85);backdrop-filter:blur(20px);border-bottom:1px solid var(--border);padding:0 2rem;height:60px;display:flex;align-items:center;justify-content:space-between}
+.logo{font-family:var(--mono);font-size:18px;color:var(--accent);font-weight:700;letter-spacing:-0.5px}
+.logo span{color:var(--accent2)}
+.nav-links{display:flex;gap:2rem;list-style:none}
+.nav-links a{color:var(--muted);text-decoration:none;font-size:13px;font-weight:500;transition:color .2s;letter-spacing:.3px}
+.nav-links a:hover,.nav-links a.active{color:var(--accent)}
+.nav-right{display:flex;align-items:center;gap:1rem}
+.progress-badge{background:var(--bg3);border:1px solid var(--border);border-radius:20px;padding:4px 14px;font-size:12px;font-family:var(--mono);color:var(--accent3)}
+#hamburger{display:none;background:none;border:none;cursor:pointer;color:var(--text)}
+
+/* --- HERO --- */
+.hero{min-height:100vh;display:flex;align-items:center;justify-content:center;text-align:center;position:relative;overflow:hidden;padding:6rem 2rem 4rem}
+.hero-grid{position:absolute;inset:0;background-image:linear-gradient(var(--border) 1px,transparent 1px),linear-gradient(90deg,var(--border) 1px,transparent 1px);background-size:60px 60px;mask-image:radial-gradient(ellipse 80% 60% at 50% 50%,black,transparent)}
+.hero-glow{position:absolute;width:600px;height:600px;background:radial-gradient(ellipse,rgba(99,210,255,0.08) 0%,transparent 70%);top:50%;left:50%;transform:translate(-50%,-50%);pointer-events:none}
+.hero-content{position:relative;z-index:1;max-width:820px}
+.hero-tag{display:inline-block;background:rgba(99,210,255,0.08);border:1px solid var(--border2);border-radius:20px;padding:5px 18px;font-size:12px;font-family:var(--mono);color:var(--accent);margin-bottom:2rem;letter-spacing:.5px}
+.hero h1{font-family:var(--mono);font-size:clamp(2.2rem,6vw,4.2rem);font-weight:700;line-height:1.1;margin-bottom:1.5rem;letter-spacing:-1px}
+.hero h1 span{color:var(--accent)}
+.hero h1 em{color:var(--accent2);font-style:normal}
+.hero p{font-size:1.15rem;color:var(--muted);max-width:580px;margin:0 auto 2.5rem;line-height:1.8}
+.btn-group{display:flex;gap:1rem;justify-content:center;flex-wrap:wrap}
+.btn{padding:12px 28px;border-radius:8px;font-size:14px;font-weight:600;cursor:pointer;transition:all .2s;text-decoration:none;font-family:var(--sans);border:none;display:inline-flex;align-items:center;gap:8px}
+.btn-primary{background:var(--accent);color:#0a0f1e}
+.btn-primary:hover{background:#90dfff;transform:translateY(-2px);box-shadow:0 8px 24px rgba(99,210,255,0.3)}
+.btn-outline{background:transparent;color:var(--accent);border:1px solid var(--border2)}
+.btn-outline:hover{background:rgba(99,210,255,0.08);transform:translateY(-2px)}
+.hero-stats{display:flex;gap:3rem;justify-content:center;margin-top:4rem;flex-wrap:wrap}
+.stat{text-align:center}
+.stat-num{font-family:var(--mono);font-size:2rem;font-weight:700;color:var(--accent)}
+.stat-label{font-size:12px;color:var(--muted);letter-spacing:.5px;text-transform:uppercase}
+
+/* --- SECTION --- */
+section{padding:6rem 2rem}
+.section-inner{max-width:1100px;margin:0 auto}
+.section-tag{font-family:var(--mono);font-size:11px;color:var(--accent);letter-spacing:2px;text-transform:uppercase;margin-bottom:.75rem}
+.section-title{font-family:var(--mono);font-size:clamp(1.6rem,3.5vw,2.4rem);font-weight:700;margin-bottom:1rem;letter-spacing:-0.5px}
+.section-sub{color:var(--muted);max-width:560px;line-height:1.8}
+
+/* --- MODULES GRID --- */
+#learn{background:var(--bg)}
+.modules-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(300px,1fr));gap:1.25rem;margin-top:3rem}
+.module-card{background:var(--card);border:1px solid var(--border);border-radius:var(--radius);padding:1.75rem;cursor:pointer;transition:all .25s;position:relative;overflow:hidden}
+.module-card::before{content:'';position:absolute;top:0;left:0;right:0;height:2px;background:linear-gradient(90deg,var(--accent),var(--accent2));transform:scaleX(0);transform-origin:left;transition:transform .3s}
+.module-card:hover{border-color:var(--border2);transform:translateY(-4px);box-shadow:var(--glow)}
+.module-card:hover::before{transform:scaleX(1)}
+.module-card.active{border-color:var(--accent);background:rgba(99,210,255,0.04)}
+.module-card.active::before{transform:scaleX(1)}
+.module-card.completed{border-color:rgba(47,255,160,0.3)}
+.module-card.completed::before{background:linear-gradient(90deg,var(--accent3),#00cc7a)}
+.module-icon{width:44px;height:44px;border-radius:10px;display:flex;align-items:center;justify-content:center;font-size:1.4rem;margin-bottom:1.2rem}
+.module-num{font-family:var(--mono);font-size:11px;color:var(--muted);margin-bottom:.5rem;letter-spacing:.5px}
+.module-card h3{font-size:1rem;font-weight:600;margin-bottom:.5rem;color:var(--text)}
+.module-card p{font-size:13px;color:var(--muted);line-height:1.6}
+.module-meta{display:flex;align-items:center;gap:1rem;margin-top:1.2rem;padding-top:1.2rem;border-top:1px solid var(--border)}
+.module-badge{font-size:11px;padding:3px 10px;border-radius:20px;font-weight:500;font-family:var(--mono)}
+.badge-beginner{background:rgba(47,255,160,0.1);color:var(--accent3);border:1px solid rgba(47,255,160,0.2)}
+.badge-intermediate{background:rgba(99,210,255,0.1);color:var(--accent);border:1px solid rgba(99,210,255,0.2)}
+.badge-advanced{background:rgba(255,107,107,0.1);color:var(--accent4);border:1px solid rgba(255,107,107,0.2)}
+.module-dur{font-size:12px;color:var(--muted);margin-left:auto}
+.module-progress{height:3px;background:var(--bg3);border-radius:2px;margin-top:.8rem}
+.module-progress-fill{height:100%;border-radius:2px;background:linear-gradient(90deg,var(--accent),var(--accent2));transition:width 1s ease}
+.checkmark{position:absolute;top:1rem;right:1rem;width:22px;height:22px;background:rgba(47,255,160,0.15);border:1px solid rgba(47,255,160,0.4);border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:11px;color:var(--accent3);opacity:0;transition:opacity .3s}
+.module-card.completed .checkmark{opacity:1}
+
+/* --- LESSON PANEL --- */
+#lesson-panel{display:none;background:var(--bg2);border:1px solid var(--border2);border-radius:var(--radius);padding:2.5rem;margin-top:2rem;position:relative;animation:slideIn .3s ease}
+@keyframes slideIn{from{opacity:0;transform:translateY(12px)}to{opacity:1;transform:translateY(0)}}
+.lesson-header{display:flex;justify-content:space-between;align-items:flex-start;margin-bottom:2rem;gap:1rem;flex-wrap:wrap}
+.lesson-header h2{font-family:var(--mono);font-size:1.5rem;color:var(--accent)}
+.close-lesson{background:none;border:1px solid var(--border);border-radius:8px;color:var(--muted);padding:6px 14px;cursor:pointer;font-size:13px;transition:all .2s}
+.close-lesson:hover{border-color:var(--border2);color:var(--text)}
+.lesson-body{display:grid;grid-template-columns:1fr 1fr;gap:2rem}
+@media(max-width:700px){.lesson-body{grid-template-columns:1fr}}
+.lesson-text h3{font-size:1rem;font-weight:600;margin:1.5rem 0 .5rem;color:var(--accent)}
+.lesson-text h3:first-child{margin-top:0}
+.lesson-text p{color:var(--muted);line-height:1.8;font-size:14px;margin-bottom:1rem}
+.lesson-text ul{color:var(--muted);font-size:14px;line-height:1.8;padding-left:1.5rem}
+.lesson-text ul li{margin-bottom:.4rem}
+.lesson-text li strong{color:var(--text)}
+.lesson-aside{display:flex;flex-direction:column;gap:1.25rem}
+.info-box{background:var(--bg3);border:1px solid var(--border);border-radius:10px;padding:1.25rem}
+.info-box h4{font-family:var(--mono);font-size:12px;color:var(--accent);margin-bottom:.8rem;letter-spacing:.5px;text-transform:uppercase}
+.kv-row{display:flex;justify-content:space-between;align-items:center;padding:5px 0;border-bottom:1px solid var(--border);font-size:13px}
+.kv-row:last-child{border-bottom:none}
+.kv-key{color:var(--muted)}
+.kv-val{font-family:var(--mono);color:var(--text);font-size:12px}
+.code-block{background:#0d1117;border:1px solid var(--border);border-radius:8px;padding:1rem;font-family:var(--mono);font-size:12px;line-height:1.7;color:#c9d1d9;overflow-x:auto}
+.code-block .c-green{color:#7ee787}
+.code-block .c-blue{color:#79c0ff}
+.code-block .c-orange{color:#ffa657}
+.code-block .c-gray{color:#8b949e}
+.quiz-section{margin-top:2rem;padding-top:2rem;border-top:1px solid var(--border)}
+.quiz-q{font-weight:600;margin-bottom:1rem;font-size:15px}
+.quiz-options{display:flex;flex-direction:column;gap:.6rem}
+.quiz-opt{background:var(--bg3);border:1px solid var(--border);border-radius:8px;padding:10px 16px;cursor:pointer;font-size:14px;transition:all .2s;text-align:left;color:var(--text);font-family:var(--sans)}
+.quiz-opt:hover{border-color:var(--border2);background:rgba(99,210,255,0.04)}
+.quiz-opt.correct{border-color:var(--accent3);background:rgba(47,255,160,0.08);color:var(--accent3)}
+.quiz-opt.wrong{border-color:var(--accent4);background:rgba(255,107,107,0.08);color:var(--accent4)}
+.quiz-feedback{margin-top:1rem;padding:.75rem 1rem;border-radius:8px;font-size:14px;display:none}
+.quiz-feedback.correct{background:rgba(47,255,160,0.08);border:1px solid rgba(47,255,160,0.2);color:var(--accent3)}
+.quiz-feedback.wrong{background:rgba(255,107,107,0.08);border:1px solid rgba(255,107,107,0.2);color:var(--accent4)}
+.complete-btn{margin-top:1.5rem;width:100%;padding:12px;background:linear-gradient(135deg,var(--accent),var(--accent2));border:none;border-radius:8px;color:#0a0f1e;font-weight:700;font-size:14px;cursor:pointer;transition:all .2s;font-family:var(--sans)}
+.complete-btn:hover{opacity:.9;transform:translateY(-1px)}
+
+/* --- OSI DIAGRAM --- */
+#osi-section{background:var(--bg2)}
+.osi-container{display:flex;gap:2.5rem;margin-top:3rem;flex-wrap:wrap;align-items:flex-start}
+.osi-layers{flex:0 0 340px}
+.osi-layer{display:flex;align-items:center;gap:1rem;padding:.9rem 1.2rem;border-radius:8px;cursor:pointer;transition:all .2s;border:1px solid transparent;margin-bottom:.5rem}
+.osi-layer:hover{background:rgba(99,210,255,0.05);border-color:var(--border)}
+.osi-layer.active{border-color:var(--border2);background:rgba(99,210,255,0.06)}
+.osi-num{width:32px;height:32px;border-radius:6px;display:flex;align-items:center;justify-content:center;font-family:var(--mono);font-size:13px;font-weight:700;flex-shrink:0}
+.osi-info{flex:1}
+.osi-name{font-weight:600;font-size:14px}
+.osi-abbr{font-size:11px;color:var(--muted);font-family:var(--mono)}
+.osi-detail{flex:1;min-width:280px;background:var(--card);border:1px solid var(--border);border-radius:var(--radius);padding:2rem;min-height:380px;transition:all .3s}
+.osi-detail h3{font-family:var(--mono);font-size:1.1rem;margin-bottom:1rem}
+.osi-detail p{color:var(--muted);font-size:14px;line-height:1.8;margin-bottom:1rem}
+.osi-detail .tags{display:flex;flex-wrap:wrap;gap:.5rem;margin-top:1rem}
+.tag{font-size:11px;padding:4px 12px;border-radius:20px;font-family:var(--mono);background:var(--bg3);border:1px solid var(--border);color:var(--muted)}
+.osi-pdus{display:flex;gap:.5rem;margin-top:1rem;flex-wrap:wrap}
+.pdu{background:rgba(99,210,255,0.08);border:1px solid rgba(99,210,255,0.2);border-radius:6px;padding:4px 12px;font-size:12px;font-family:var(--mono);color:var(--accent)}
+
+/* --- IP CALCULATOR --- */
+#tools{background:var(--bg)}
+.tool-tabs{display:flex;gap:.5rem;margin-bottom:2rem;flex-wrap:wrap}
+.tool-tab{padding:8px 20px;border-radius:8px;border:1px solid var(--border);background:var(--bg2);color:var(--muted);cursor:pointer;font-size:13px;font-weight:500;transition:all .2s}
+.tool-tab.active{background:rgba(99,210,255,0.1);border-color:var(--border2);color:var(--accent)}
+.tool-pane{display:none;background:var(--card);border:1px solid var(--border);border-radius:var(--radius);padding:2rem}
+.tool-pane.active{display:block;animation:slideIn .2s ease}
+.input-row{display:flex;gap:1rem;align-items:flex-end;flex-wrap:wrap;margin-bottom:1.5rem}
+.input-group{display:flex;flex-direction:column;gap:.4rem;flex:1;min-width:180px}
+.input-group label{font-size:12px;color:var(--muted);font-family:var(--mono);letter-spacing:.3px}
+.input-group input,.input-group select{background:var(--bg2);border:1px solid var(--border);border-radius:8px;padding:10px 14px;color:var(--text);font-family:var(--mono);font-size:14px;outline:none;transition:border-color .2s;width:100%}
+.input-group input:focus,.input-group select:focus{border-color:var(--border2)}
+.calc-btn{padding:10px 24px;background:var(--accent);color:#0a0f1e;border:none;border-radius:8px;font-weight:700;font-size:14px;cursor:pointer;transition:all .2s;font-family:var(--sans);white-space:nowrap}
+.calc-btn:hover{background:#90dfff;transform:translateY(-1px)}
+.result-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(220px,1fr));gap:1rem;margin-top:1.5rem}
+.result-card{background:var(--bg3);border:1px solid var(--border);border-radius:10px;padding:1rem 1.25rem}
+.result-label{font-size:11px;color:var(--muted);font-family:var(--mono);margin-bottom:.4rem;text-transform:uppercase;letter-spacing:.5px}
+.result-val{font-family:var(--mono);font-size:14px;color:var(--accent);word-break:break-all}
+.subnet-visual{margin-top:2rem}
+.subnet-bar-wrap{background:var(--bg3);border-radius:8px;overflow:hidden;height:36px;display:flex;margin:1rem 0;border:1px solid var(--border)}
+.subnet-seg{display:flex;align-items:center;justify-content:center;font-size:11px;font-family:var(--mono);font-weight:700;height:100%;transition:all .3s}
+
+/* --- PACKET SIMULATOR --- */
+.sim-area{background:var(--bg2);border:1px solid var(--border);border-radius:10px;padding:2rem;position:relative;overflow:hidden;min-height:200px;display:flex;align-items:center;justify-content:space-between;gap:1rem;margin:1.5rem 0;flex-wrap:wrap}
+.sim-node{text-align:center;z-index:2}
+.sim-node-icon{width:64px;height:64px;border-radius:12px;display:flex;align-items:center;justify-content:center;font-size:2rem;margin:0 auto .5rem;border:1px solid var(--border)}
+.sim-node-label{font-size:12px;color:var(--muted);font-family:var(--mono)}
+.sim-path{flex:1;height:2px;background:var(--border);position:relative;min-width:80px;margin:0 .5rem}
+.sim-packet{position:absolute;top:50%;transform:translateY(-50%);background:var(--accent);border-radius:50%;display:none}
+.sim-controls{display:flex;gap:.75rem;flex-wrap:wrap}
+.sim-log{background:var(--bg2);border:1px solid var(--border);border-radius:8px;height:180px;overflow-y:auto;padding:1rem;font-family:var(--mono);font-size:12px;margin-top:1rem}
+.log-line{padding:3px 0;border-bottom:1px solid rgba(255,255,255,0.03);color:var(--muted)}
+.log-line span{color:var(--accent);margin-right:8px}
+.log-line.green span{color:var(--accent3)}
+.log-line.red span{color:var(--accent4)}
+
+/* --- CHEATSHEET --- */
+#reference{background:var(--bg2)}
+.cheat-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(260px,1fr));gap:1.25rem;margin-top:2.5rem}
+.cheat-card{background:var(--card);border:1px solid var(--border);border-radius:var(--radius);padding:1.5rem;transition:border-color .2s}
+.cheat-card:hover{border-color:var(--border2)}
+.cheat-card h3{font-family:var(--mono);font-size:13px;color:var(--accent);margin-bottom:1rem;letter-spacing:.3px}
+.cheat-row{display:flex;justify-content:space-between;align-items:center;padding:5px 0;border-bottom:1px solid var(--border);font-size:13px}
+.cheat-row:last-child{border-bottom:none}
+.cheat-key{color:var(--muted)}
+.cheat-val{font-family:var(--mono);color:var(--text);font-size:12px;text-align:right}
+.cheat-val.accent{color:var(--accent)}
+
+/* --- QUIZ ARENA --- */
+#quiz-arena{background:var(--bg)}
+.quiz-arena-wrap{max-width:720px;margin:3rem auto 0}
+.quiz-progress-bar{height:4px;background:var(--bg3);border-radius:2px;margin-bottom:2.5rem}
+.quiz-progress-fill{height:100%;background:linear-gradient(90deg,var(--accent),var(--accent2));border-radius:2px;transition:width .4s ease}
+.quiz-card{background:var(--card);border:1px solid var(--border);border-radius:var(--radius);padding:2.5rem}
+.quiz-card-num{font-family:var(--mono);font-size:12px;color:var(--muted);margin-bottom:1rem}
+.quiz-card-q{font-size:1.15rem;font-weight:600;margin-bottom:2rem;line-height:1.6}
+.quiz-arena-opts{display:grid;grid-template-columns:1fr 1fr;gap:.75rem}
+@media(max-width:560px){.quiz-arena-opts{grid-template-columns:1fr}}
+.quiz-arena-opt{background:var(--bg3);border:1px solid var(--border);border-radius:10px;padding:1rem 1.25rem;cursor:pointer;font-size:14px;transition:all .2s;text-align:left;color:var(--text);font-family:var(--sans);line-height:1.5}
+.quiz-arena-opt:hover{border-color:var(--border2);background:rgba(99,210,255,0.05)}
+.quiz-arena-opt.correct{border-color:var(--accent3);background:rgba(47,255,160,0.08);color:var(--accent3)}
+.quiz-arena-opt.wrong{border-color:var(--accent4);background:rgba(255,107,107,0.08);color:var(--accent4)}
+.quiz-arena-opt:disabled{cursor:default}
+.quiz-nav{display:flex;justify-content:space-between;align-items:center;margin-top:2rem;flex-wrap:wrap;gap:1rem}
+.quiz-score-badge{font-family:var(--mono);font-size:13px;color:var(--accent3)}
+.quiz-result{text-align:center;padding:3rem 2rem}
+.quiz-result .big-score{font-family:var(--mono);font-size:4rem;font-weight:700;color:var(--accent);margin:1rem 0}
+.quiz-result p{color:var(--muted);margin-bottom:2rem}
+
+/* --- GLOSSARY --- */
+#glossary{background:var(--bg2)}
+.glossary-search{width:100%;background:var(--card);border:1px solid var(--border);border-radius:10px;padding:12px 18px;color:var(--text);font-size:15px;outline:none;transition:border-color .2s;font-family:var(--sans);margin:2rem 0 1.5rem}
+.glossary-search:focus{border-color:var(--border2)}
+.glossary-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(300px,1fr));gap:1rem}
+.gloss-card{background:var(--card);border:1px solid var(--border);border-radius:10px;padding:1.25rem;transition:border-color .2s}
+.gloss-card:hover{border-color:var(--border2)}
+.gloss-term{font-family:var(--mono);font-size:14px;color:var(--accent);margin-bottom:.4rem;font-weight:700}
+.gloss-abbr{font-size:11px;color:var(--muted);font-family:var(--mono);margin-bottom:.5rem}
+.gloss-def{font-size:13px;color:var(--muted);line-height:1.7}
+
+/* --- FOOTER --- */
+footer{background:var(--bg);border-top:1px solid var(--border);padding:3rem 2rem;text-align:center}
+.footer-logo{font-family:var(--mono);font-size:1.4rem;color:var(--accent);margin-bottom:.5rem;font-weight:700}
+footer p{color:var(--muted);font-size:13px}
+.footer-links{display:flex;gap:2rem;justify-content:center;margin:1.5rem 0;flex-wrap:wrap}
+.footer-links a{color:var(--muted);text-decoration:none;font-size:13px;transition:color .2s}
+.footer-links a:hover{color:var(--accent)}
+
+/* --- RESPONSIVE --- */
+@media(max-width:768px){
+  .nav-links{display:none;position:absolute;top:60px;left:0;right:0;background:var(--bg2);border-bottom:1px solid var(--border);flex-direction:column;padding:1rem;gap:.5rem}
+  .nav-links.open{display:flex}
+  #hamburger{display:block}
+  .osi-container{flex-direction:column}
+  .osi-layers{flex:none;width:100%}
+  .hero h1{font-size:2rem}
+  .hero-stats{gap:2rem}
+}
+</style>
+</head>
+<body>
+
+<!-- NAV -->
+<nav>
+  <div class="logo">Net<span>Master</span></div>
+  <ul class="nav-links" id="navLinks">
+    <li><a href="#learn" class="active">Modules</a></li>
+    <li><a href="#osi-section">OSI Model</a></li>
+    <li><a href="#tools">Tools</a></li>
+    <li><a href="#quiz-arena">Quiz</a></li>
+    <li><a href="#reference">Cheatsheet</a></li>
+    <li><a href="#glossary">Glossary</a></li>
+  </ul>
+  <div class="nav-right">
+    <div class="progress-badge" id="progressBadge">0 / 10 done</div>
+    <button id="hamburger" onclick="document.getElementById('navLinks').classList.toggle('open')">☰</button>
+  </div>
+</nav>
+
+<!-- HERO -->
+<section class="hero">
+  <div class="hero-grid"></div>
+  <div class="hero-glow"></div>
+  <div class="hero-content">
+    <div class="hero-tag">// Open Source · GitHub Pages Ready</div>
+    <h1>Master <span>Computer</span><br><em>Networking</em> From<br>First Principles</h1>
+    <p>From OSI layers to subnetting, TCP/IP to cybersecurity — interactive lessons, live tools, and quizzes to get you production-ready.</p>
+    <div class="btn-group">
+      <a href="#learn" class="btn btn-primary">▶ Start Learning</a>
+      <a href="#tools" class="btn btn-outline">⚙ Open Tools</a>
+    </div>
+    <div class="hero-stats">
+      <div class="stat"><div class="stat-num">10</div><div class="stat-label">Modules</div></div>
+      <div class="stat"><div class="stat-num">50+</div><div class="stat-label">Concepts</div></div>
+      <div class="stat"><div class="stat-num">5</div><div class="stat-label">Live Tools</div></div>
+      <div class="stat"><div class="stat-num">30+</div><div class="stat-label">Quiz Questions</div></div>
+    </div>
+  </div>
+</section>
+
+<!-- MODULES -->
+<section id="learn">
+  <div class="section-inner">
+    <div class="section-tag">// curriculum</div>
+    <h2 class="section-title">Learning Modules</h2>
+    <p class="section-sub">Structured from fundamentals to advanced. Click any module to start the lesson.</p>
+    <div class="modules-grid" id="modulesGrid"></div>
+    <div id="lesson-panel"></div>
+  </div>
+</section>
+
+<!-- OSI MODEL -->
+<section id="osi-section">
+  <div class="section-inner">
+    <div class="section-tag">// reference</div>
+    <h2 class="section-title">The OSI Model</h2>
+    <p class="section-sub">Click any layer to explore its role, protocols, PDUs, and real-world examples.</p>
+    <div class="osi-container">
+      <div class="osi-layers" id="osiLayers"></div>
+      <div class="osi-detail" id="osiDetail">
+        <p style="color:var(--muted);font-size:14px">Select a layer on the left to see details.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- TOOLS -->
+<section id="tools">
+  <div class="section-inner">
+    <div class="section-tag">// interactive tools</div>
+    <h2 class="section-title">Networking Toolkit</h2>
+    <p class="section-sub">Hands-on tools to reinforce learning and solve real networking problems.</p>
+    <div class="tool-tabs" style="margin-top:2rem">
+      <button class="tool-tab active" onclick="switchTool('subnet')">IP / Subnet Calculator</button>
+      <button class="tool-tab" onclick="switchTool('cidr')">CIDR Lookup</button>
+      <button class="tool-tab" onclick="switchTool('ports')">Common Ports</button>
+      <button class="tool-tab" onclick="switchTool('simulator')">Packet Simulator</button>
+      <button class="tool-tab" onclick="switchTool('binary')">Binary Converter</button>
+    </div>
+
+    <!-- SUBNET CALCULATOR -->
+    <div class="tool-pane active" id="tool-subnet">
+      <div class="input-row">
+        <div class="input-group"><label>IP Address</label><input type="text" id="subnetIP" value="192.168.1.0" placeholder="e.g. 192.168.1.0"></div>
+        <div class="input-group"><label>Subnet Mask / CIDR</label><input type="text" id="subnetMask" value="24" placeholder="e.g. 24 or 255.255.255.0"></div>
+        <button class="calc-btn" onclick="calcSubnet()">Calculate</button>
+      </div>
+      <div class="result-grid" id="subnetResults"></div>
+      <div class="subnet-visual" id="subnetVisual"></div>
+    </div>
+
+    <!-- CIDR LOOKUP -->
+    <div class="tool-pane" id="tool-cidr">
+      <p style="color:var(--muted);font-size:14px;margin-bottom:1.5rem">All CIDR prefixes from /0 to /32 with host counts, subnet masks, and usable addresses.</p>
+      <div id="cidrTable"></div>
+    </div>
+
+    <!-- COMMON PORTS -->
+    <div class="tool-pane" id="tool-ports">
+      <div class="input-row">
+        <div class="input-group" style="flex:2"><label>Search port, protocol, or service</label><input type="text" id="portsSearch" placeholder="e.g. 80, HTTP, SSH..." oninput="filterPorts()"></div>
+      </div>
+      <div id="portsTable"></div>
+    </div>
+
+    <!-- PACKET SIMULATOR -->
+    <div class="tool-pane" id="tool-simulator">
+      <p style="color:var(--muted);font-size:14px;margin-bottom:1.5rem">Simulate different network scenarios and watch how packets travel.</p>
+      <div class="input-row">
+        <div class="input-group"><label>Protocol</label><select id="simProtocol"><option>TCP</option><option>UDP</option><option>ICMP</option><option>HTTP</option><option>DNS</option></select></div>
+        <div class="input-group"><label>Scenario</label><select id="simScenario"><option value="normal">Normal delivery</option><option value="drop">Packet loss</option><option value="retransmit">Retransmission</option><option value="dns">DNS resolution</option></select></div>
+        <button class="calc-btn" onclick="runSimulation()">▶ Simulate</button>
+      </div>
+      <div class="sim-area" id="simArea">
+        <div class="sim-node"><div class="sim-node-icon" style="background:rgba(99,210,255,0.08)">💻</div><div class="sim-node-label">Client</div></div>
+        <div class="sim-path" id="simPath1"><div class="sim-packet" id="simPkt1" style="width:14px;height:14px;left:0"></div></div>
+        <div class="sim-node"><div class="sim-node-icon" style="background:rgba(124,111,255,0.08)">🔀</div><div class="sim-node-label">Router</div></div>
+        <div class="sim-path" id="simPath2"><div class="sim-packet" id="simPkt2" style="width:14px;height:14px;left:0"></div></div>
+        <div class="sim-node"><div class="sim-node-icon" style="background:rgba(47,255,160,0.08)">🖥️</div><div class="sim-node-label">Server</div></div>
+      </div>
+      <div class="sim-log" id="simLog"><div class="log-line"><span>[READY]</span>Select a scenario and click Simulate</div></div>
+    </div>
+
+    <!-- BINARY CONVERTER -->
+    <div class="tool-pane" id="tool-binary">
+      <div class="input-row">
+        <div class="input-group"><label>Decimal (0-255)</label><input type="number" id="binDec" placeholder="e.g. 192" min="0" max="255" oninput="convertBin('dec')"></div>
+        <div class="input-group"><label>Binary (8-bit)</label><input type="text" id="binBin" placeholder="e.g. 11000000" oninput="convertBin('bin')"></div>
+        <div class="input-group"><label>Hexadecimal</label><input type="text" id="binHex" placeholder="e.g. C0" oninput="convertBin('hex')"></div>
+      </div>
+      <div id="binVisual" style="margin-top:1.5rem"></div>
+      <div style="margin-top:2rem;background:var(--bg3);border:1px solid var(--border);border-radius:10px;padding:1.5rem">
+        <h4 style="font-family:var(--mono);font-size:12px;color:var(--accent);margin-bottom:1rem;text-transform:uppercase;letter-spacing:.5px">IP Address in Binary</h4>
+        <div class="input-row">
+          <div class="input-group" style="flex:3"><label>IP Address</label><input type="text" id="ipToBin" placeholder="192.168.1.1" oninput="ipBinConvert()"></div>
+        </div>
+        <div id="ipBinResult" style="font-family:var(--mono);font-size:13px;color:var(--accent);margin-top:1rem;word-break:break-all"></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- QUIZ ARENA -->
+<section id="quiz-arena">
+  <div class="section-inner">
+    <div class="section-tag">// test yourself</div>
+    <h2 class="section-title">Quiz Arena</h2>
+    <p class="section-sub">30 questions covering all networking topics. Test your knowledge!</p>
+    <div class="quiz-arena-wrap">
+      <div id="quizArenaContent"></div>
+    </div>
+  </div>
+</section>
+
+<!-- CHEATSHEET -->
+<section id="reference">
+  <div class="section-inner">
+    <div class="section-tag">// quick reference</div>
+    <h2 class="section-title">Networking Cheatsheet</h2>
+    <p class="section-sub">The most important tables and references all in one place.</p>
+    <div class="cheat-grid" id="cheatGrid"></div>
+  </div>
+</section>
+
+<!-- GLOSSARY -->
+<section id="glossary">
+  <div class="section-inner">
+    <div class="section-tag">// definitions</div>
+    <h2 class="section-title">Glossary</h2>
+    <p class="section-sub">Every key networking term, explained clearly.</p>
+    <input class="glossary-search" type="text" placeholder="Search terms..." oninput="filterGlossary()" id="glossarySearch">
+    <div class="glossary-grid" id="glossaryGrid"></div>
+  </div>
+</section>
+
+<footer>
+  <div class="footer-logo">NetMaster</div>
+  <div class="footer-links">
+    <a href="#learn">Modules</a>
+    <a href="#tools">Tools</a>
+    <a href="#quiz-arena">Quiz</a>
+    <a href="#reference">Cheatsheet</a>
+    <a href="https://github.com" target="_blank">GitHub</a>
+  </div>
+  <p>Built for learners. Free forever. Deploy to GitHub Pages in one click.</p>
+</footer>
+
+<script>
+// ===================== DATA =====================
+
+const MODULES = [
+  {
+    id:0, icon:'🌐', color:'rgba(99,210,255,0.1)', colorAccent:'#63d2ff',
+    title:'Network Fundamentals', level:'Beginner', dur:'25 min', progress:0,
+    desc:'Understand what a network is, how data travels, and the key terminology every network engineer must know.',
+    content:{
+      sections:[
+        {title:'What is a Computer Network?', body:'A computer network is a collection of interconnected devices that share resources and exchange data. Networks can be as small as two computers connected at home or as large as the global Internet spanning billions of devices.'},
+        {title:'Types of Networks', body:'<ul><li><strong>LAN (Local Area Network)</strong> — Covers a small area like a home or office. Fast, low latency, privately owned.</li><li><strong>WAN (Wide Area Network)</strong> — Spans large geographic areas. The Internet is the largest WAN.</li><li><strong>MAN (Metropolitan Area Network)</strong> — City-scale networks.</li><li><strong>PAN (Personal Area Network)</strong> — Bluetooth, USB — very short range.</li></ul>'},
+        {title:'Network Topologies', body:'The physical or logical arrangement of nodes: <strong>Bus</strong> (single cable), <strong>Star</strong> (central hub/switch), <strong>Ring</strong> (circular path), <strong>Mesh</strong> (redundant paths), <strong>Hybrid</strong> (combination).'}
+      ],
+      facts:[{k:'Max LAN Speed',v:'100 Gbps'},{k:'Typical WAN Latency',v:'20-80ms'},{k:'OSI Layers',v:'7'},{k:'TCP/IP Layers',v:'4'}],
+      code:`<span class="c-gray"># Ping a host</span>\n<span class="c-green">ping</span> <span class="c-blue">google.com</span>\n\n<span class="c-gray"># Trace route</span>\n<span class="c-green">traceroute</span> <span class="c-blue">8.8.8.8</span>\n\n<span class="c-gray"># Show interfaces</span>\n<span class="c-green">ifconfig</span>  <span class="c-gray"># Linux/Mac</span>\n<span class="c-green">ipconfig</span>  <span class="c-gray"># Windows</span>`,
+      quiz:{q:'Which network type covers an entire city?',opts:['LAN','WAN','MAN','PAN'],correct:2,explain:'A MAN (Metropolitan Area Network) is designed to cover a city or metropolitan area, larger than a LAN but smaller than a WAN.'}
+    }
+  },
+  {
+    id:1, icon:'📦', color:'rgba(124,111,255,0.1)', colorAccent:'#7c6fff',
+    title:'OSI Model Deep Dive', level:'Beginner', dur:'35 min', progress:0,
+    desc:'Master all 7 layers of the OSI model — what each does, its protocols, and how data flows through the stack.',
+    content:{
+      sections:[
+        {title:'Why OSI?', body:'The OSI (Open Systems Interconnection) model is a conceptual framework that standardizes how different network systems communicate. It breaks communication into 7 distinct layers, each with a specific role. Understanding OSI is essential for troubleshooting any network issue.'},
+        {title:'Data Encapsulation', body:'As data travels down the stack, each layer adds its own header (and sometimes trailer) — this is called encapsulation. At the receiver, each layer strips its header as data travels up. A single application message becomes a Segment → Datagram → Frame → Bits.'},
+        {title:'Mnemonics', body:'Remember the layers top-down: <strong>"All People Seem To Need Data Processing"</strong> (Application, Presentation, Session, Transport, Network, Data Link, Physical) or bottom-up: <strong>"Please Do Not Throw Sausage Pizza Away"</strong>.'}
+      ],
+      facts:[{k:'Layer 7',v:'Application'},{k:'Layer 4 PDU',v:'Segment'},{k:'Layer 3 PDU',v:'Datagram'},{k:'Layer 2 PDU',v:'Frame'}],
+      code:`<span class="c-gray"># Wireshark equivalent (tcpdump)</span>\n<span class="c-green">tcpdump</span> <span class="c-blue">-i eth0</span> <span class="c-orange">-n</span>\n\n<span class="c-gray"># Capture HTTP traffic only</span>\n<span class="c-green">tcpdump</span> <span class="c-blue">port 80</span> <span class="c-orange">-w capture.pcap</span>\n\n<span class="c-gray"># Show layer 2 (Ethernet)</span>\n<span class="c-green">tcpdump</span> <span class="c-blue">-e</span> <span class="c-orange">-n</span>`,
+      quiz:{q:'At which OSI layer does routing occur?',opts:['Layer 2 — Data Link','Layer 3 — Network','Layer 4 — Transport','Layer 5 — Session'],correct:1,explain:'Layer 3 (Network) handles logical addressing (IP) and routing between networks. Routers operate at this layer.'}
+    }
+  },
+  {
+    id:2, icon:'🔢', color:'rgba(47,255,160,0.1)', colorAccent:'#2fffa0',
+    title:'IP Addressing & Subnetting', level:'Beginner', dur:'45 min', progress:0,
+    desc:'Learn IPv4 and IPv6 addressing, CIDR notation, and how to subnet networks — a critical skill for any network role.',
+    content:{
+      sections:[
+        {title:'IPv4 Address Structure', body:'An IPv4 address is 32 bits, written as 4 octets (e.g. 192.168.1.1). Each octet is 0–255. The address has two parts: the <strong>network portion</strong> (identified by the subnet mask) and the <strong>host portion</strong>.'},
+        {title:'Subnet Masking', body:'A subnet mask (e.g. 255.255.255.0 = /24) defines which bits belong to the network. AND the IP with the mask to get the network address. Subnetting divides a network into smaller segments for security, performance, and organization.'},
+        {title:'IPv6 Basics', body:'IPv6 uses 128 bits, written as 8 groups of 4 hex digits (e.g. 2001:0db8::1). Provides 340 undecillion addresses. Consecutive zero groups are compressed with ::. Link-local addresses start with FE80::.'}
+      ],
+      facts:[{k:'IPv4 Space',v:'~4.3 billion'},{k:'IPv6 Space',v:'3.4×10³⁸'},{k:'Private 192.168.x.x',v:'/16 block'},{k:'Loopback',v:'127.0.0.1'}],
+      code:`<span class="c-gray"># Show IP address</span>\n<span class="c-green">ip addr show</span>  <span class="c-gray"># Linux</span>\n\n<span class="c-gray"># Calculate subnet info</span>\n<span class="c-green">ipcalc</span> <span class="c-blue">192.168.1.0/24</span>\n\n<span class="c-gray"># IPv6 info</span>\n<span class="c-green">ip -6 addr show</span>\n<span class="c-green">ping6</span> <span class="c-blue">::1</span>`,
+      quiz:{q:'How many usable hosts are in a /24 subnet?',opts:['254','255','256','252'],correct:0,explain:'A /24 has 256 addresses total (2^8). Subtract 2: the network address and broadcast address. So 254 usable host addresses.'}
+    }
+  },
+  {
+    id:3, icon:'🔄', color:'rgba(255,209,102,0.1)', colorAccent:'#ffd166',
+    title:'TCP/IP & Transport Layer', level:'Intermediate', dur:'40 min', progress:0,
+    desc:'Understand TCP vs UDP, the three-way handshake, flow control, congestion control, and ports.',
+    content:{
+      sections:[
+        {title:'TCP vs UDP', body:'<strong>TCP (Transmission Control Protocol)</strong> provides reliable, ordered, error-checked delivery. Uses connection establishment (3-way handshake), acknowledgments, and retransmission. Used by HTTP, FTP, SSH.<br><br><strong>UDP (User Datagram Protocol)</strong> is connectionless, faster, but unreliable. No handshake, no acks. Used by DNS, VoIP, streaming, gaming.'},
+        {title:'The TCP 3-Way Handshake', body:'1. <strong>SYN</strong> — Client sends SYN (synchronize) with ISN (initial sequence number).<br>2. <strong>SYN-ACK</strong> — Server responds with its own SYN and ACKs the client.<br>3. <strong>ACK</strong> — Client acknowledges. Connection established. Data can now flow.'},
+        {title:'Ports & Sockets', body:'A port is a 16-bit number (0–65535) identifying a specific process. Well-known ports: 0–1023 (HTTP:80, HTTPS:443, SSH:22). A socket = IP:Port (e.g. 192.168.1.1:80). The 5-tuple (src IP, src port, dst IP, dst port, protocol) uniquely identifies a connection.'}
+      ],
+      facts:[{k:'TCP header size',v:'20-60 bytes'},{k:'UDP header size',v:'8 bytes'},{k:'Window size max',v:'65535 bytes'},{k:'Ephemeral ports',v:'49152-65535'}],
+      code:`<span class="c-gray"># View active TCP connections</span>\n<span class="c-green">netstat</span> <span class="c-blue">-an</span> | <span class="c-green">grep</span> <span class="c-orange">ESTABLISHED</span>\n\n<span class="c-gray"># Check listening ports</span>\n<span class="c-green">ss</span> <span class="c-blue">-tulnp</span>\n\n<span class="c-gray"># TCP dump for port 443</span>\n<span class="c-green">tcpdump</span> <span class="c-blue">-n port 443</span>`,
+      quiz:{q:'What makes TCP reliable that UDP lacks?',opts:['Encryption','Acknowledgments & retransmission','Compression','Faster speed'],correct:1,explain:'TCP uses sequence numbers, acknowledgments (ACKs), and retransmission timers to ensure every packet is received and in order. UDP sends and forgets.'}
+    }
+  },
+  {
+    id:4, icon:'🔀', color:'rgba(255,107,107,0.1)', colorAccent:'#ff6b6b',
+    title:'Routing & Switching', level:'Intermediate', dur:'50 min', progress:0,
+    desc:'Learn how routers forward packets, routing protocols (OSPF, BGP, RIP), VLANs, and spanning tree.',
+    content:{
+      sections:[
+        {title:'How Routers Work', body:'A router maintains a <strong>routing table</strong> — a list of network destinations and how to reach them. When a packet arrives, the router performs a <strong>longest-prefix match</strong> to find the best route. Routes can be static (manually configured) or dynamic (learned via routing protocols).'},
+        {title:'Routing Protocols', body:'<ul><li><strong>RIP</strong> — Distance-vector, max 15 hops, convergence slow. Legacy.</li><li><strong>OSPF</strong> — Link-state, uses Dijkstra algorithm, scales well within a single AS.</li><li><strong>BGP</strong> — Path-vector, the routing protocol of the Internet (between ASes). Policy-driven.</li><li><strong>EIGRP</strong> — Cisco proprietary, hybrid, fast convergence.</li></ul>'},
+        {title:'VLANs', body:'A VLAN (Virtual LAN) logically segments a physical network. Devices in the same VLAN communicate as if on the same switch, even if physically separate. Traffic between VLANs requires a Layer 3 device (router or Layer 3 switch). Tagged using 802.1Q.'}
+      ],
+      facts:[{k:'Default gateway',v:'Router IP'},{k:'BGP AS numbers',v:'1-65535'},{k:'OSPF metric',v:'Bandwidth'},{k:'STP port states',v:'5'}],
+      code:`<span class="c-gray"># Show routing table</span>\n<span class="c-green">ip route show</span>  <span class="c-gray"># Linux</span>\n<span class="c-green">route print</span>    <span class="c-gray"># Windows</span>\n\n<span class="c-gray"># Add static route</span>\n<span class="c-green">ip route add</span> <span class="c-blue">10.0.0.0/8</span> via <span class="c-orange">192.168.1.1</span>\n\n<span class="c-gray"># Check BGP neighbors (Cisco)</span>\n<span class="c-green">show ip bgp summary</span>`,
+      quiz:{q:'Which routing protocol is used between different Autonomous Systems on the Internet?',opts:['OSPF','RIP','BGP','EIGRP'],correct:2,explain:'BGP (Border Gateway Protocol) is the routing protocol that connects different Autonomous Systems (AS) on the internet. It is known as the "routing protocol of the internet."'}
+    }
+  },
+  {
+    id:5, icon:'🌍', color:'rgba(99,210,255,0.1)', colorAccent:'#63d2ff',
+    title:'DNS, DHCP & NAT', level:'Intermediate', dur:'35 min', progress:0,
+    desc:'How domain names resolve to IPs, automatic IP assignment with DHCP, and address translation with NAT.',
+    content:{
+      sections:[
+        {title:'DNS — The Internet\'s Phone Book', body:'DNS (Domain Name System) translates human-readable names (google.com) to IP addresses. It\'s a hierarchical distributed database. Resolution order: Local cache → Hosts file → Recursive resolver → Root → TLD → Authoritative NS. Record types: <strong>A</strong> (IPv4), <strong>AAAA</strong> (IPv6), <strong>MX</strong> (mail), <strong>CNAME</strong> (alias), <strong>TXT</strong> (arbitrary text), <strong>PTR</strong> (reverse lookup).'},
+        {title:'DHCP — Automatic IP Assignment', body:'DHCP (Dynamic Host Configuration Protocol) automatically assigns IP addresses, subnet masks, default gateways, and DNS servers to clients. Uses 4-step DORA process: <strong>Discover → Offer → Request → Acknowledge</strong>. Lease time determines how long the IP is held.'},
+        {title:'NAT — Address Translation', body:'NAT (Network Address Translation) maps private IP addresses to one or more public IPs. Types: <strong>Static NAT</strong> (1:1), <strong>Dynamic NAT</strong> (pool), <strong>PAT/Overload</strong> (many:1 using ports). PAT is what your home router does — all devices share one public IP.'}
+      ],
+      facts:[{k:'DNS port',v:'53 (UDP/TCP)'},{k:'DHCP ports',v:'67 (server), 68'},{k:'TTL range',v:'0-86400s'},{k:'NAT RFC',v:'RFC 3022'}],
+      code:`<span class="c-gray"># DNS lookup</span>\n<span class="c-green">nslookup</span> <span class="c-blue">google.com</span>\n<span class="c-green">dig</span> <span class="c-blue">google.com A</span>\n<span class="c-green">dig</span> <span class="c-blue">+short MX</span> <span class="c-orange">gmail.com</span>\n\n<span class="c-gray"># DHCP release/renew</span>\n<span class="c-green">dhclient</span> <span class="c-blue">-r eth0</span>  <span class="c-gray"># release</span>\n<span class="c-green">dhclient</span> <span class="c-blue">eth0</span>    <span class="c-gray"># renew</span>`,
+      quiz:{q:'What DNS record type is used for IPv6 addresses?',opts:['A','AAAA','MX','PTR'],correct:1,explain:'AAAA (quad-A) records store IPv6 addresses. Regular A records store IPv4 addresses. The name comes from IPv6 being 4 times the size of IPv4.'}
+    }
+  },
+  {
+    id:6, icon:'🔒', color:'rgba(47,255,160,0.1)', colorAccent:'#2fffa0',
+    title:'Network Security', level:'Intermediate', dur:'55 min', progress:0,
+    desc:'Firewalls, VPNs, TLS/SSL, common attack types (DDoS, MITM, ARP spoofing), and defense strategies.',
+    content:{
+      sections:[
+        {title:'Firewalls', body:'A firewall filters network traffic based on rules. Types: <strong>Stateless</strong> (checks each packet independently), <strong>Stateful</strong> (tracks connection state, more intelligent), <strong>Application/Layer 7</strong> (deep packet inspection, understands protocols). iptables and nftables are the Linux firewall frameworks.'},
+        {title:'Common Attacks', body:'<ul><li><strong>DDoS</strong> — Flooding a target with traffic from many sources.</li><li><strong>MITM</strong> — Intercepting communication between two parties.</li><li><strong>ARP Spoofing</strong> — Poisoning ARP cache to redirect traffic.</li><li><strong>DNS Poisoning</strong> — Corrupting DNS cache with false records.</li><li><strong>SYN Flood</strong> — Overwhelming a server with half-open TCP connections.</li></ul>'},
+        {title:'TLS/SSL', body:'TLS (Transport Layer Security) encrypts data in transit. The handshake negotiates cipher suites, exchanges certificates, and establishes session keys. Modern TLS 1.3 is faster (1 RTT) and more secure. HTTPS = HTTP + TLS on port 443.'}
+      ],
+      facts:[{k:'TLS 1.3 RTTs',v:'1 (0 with resumption)'},{k:'iptables tables',v:'filter, nat, mangle'},{k:'VPN protocols',v:'WireGuard, OpenVPN'},{k:'Port scan tool',v:'nmap'}],
+      code:`<span class="c-gray"># List iptables rules</span>\n<span class="c-green">iptables</span> <span class="c-blue">-L -n -v</span>\n\n<span class="c-gray"># Block an IP</span>\n<span class="c-green">iptables</span> <span class="c-blue">-A INPUT -s 1.2.3.4 -j DROP</span>\n\n<span class="c-gray"># Scan network ports</span>\n<span class="c-green">nmap</span> <span class="c-blue">-sV 192.168.1.0/24</span>\n\n<span class="c-gray"># Check TLS certificate</span>\n<span class="c-green">openssl s_client</span> <span class="c-blue">-connect google.com:443</span>`,
+      quiz:{q:'What type of attack poisons the ARP cache to redirect network traffic?',opts:['SYN Flood','ARP Spoofing','DNS Poisoning','DDoS'],correct:1,explain:'ARP Spoofing sends fake ARP replies to associate the attacker\'s MAC address with a legitimate IP, allowing traffic interception — the foundation of many MITM attacks.'}
+    }
+  },
+  {
+    id:7, icon:'📡', color:'rgba(255,209,102,0.1)', colorAccent:'#ffd166',
+    title:'Wireless Networking', level:'Intermediate', dur:'30 min', progress:0,
+    desc:'WiFi standards (802.11), frequencies, SSID, WPA3, and the challenges of wireless security.',
+    content:{
+      sections:[
+        {title:'IEEE 802.11 Standards', body:'WiFi is standardized by IEEE 802.11. Key generations: <strong>802.11n (WiFi 4)</strong> — 2.4/5GHz, up to 600Mbps. <strong>802.11ac (WiFi 5)</strong> — 5GHz, up to 3.5Gbps, MU-MIMO. <strong>802.11ax (WiFi 6)</strong> — 2.4/5/6GHz, OFDMA, up to 9.6Gbps, better dense environments.'},
+        {title:'2.4 GHz vs 5 GHz', body:'<strong>2.4 GHz</strong>: Longer range, penetrates walls better, more congested (only 3 non-overlapping channels: 1, 6, 11). <strong>5 GHz</strong>: Shorter range, 23 non-overlapping channels, less congestion, faster throughput. WiFi 6E adds the 6 GHz band for even more spectrum.'},
+        {title:'Wireless Security', body:'WEP (broken), WPA (vulnerable), WPA2 (CCMP/AES, current standard), WPA3 (SAE instead of PSK, forward secrecy). Enterprise mode uses 802.1X with RADIUS for per-user authentication. Common attacks: evil twin, deauth attacks, KRACK (WPA2).'}
+      ],
+      facts:[{k:'WiFi 6 max speed',v:'9.6 Gbps'},{k:'2.4GHz channels',v:'14 (3 non-overlap)'},{k:'Bluetooth range',v:'~10 meters'},{k:'WPA3 key exchange',v:'SAE'}],
+      code:`<span class="c-gray"># Scan WiFi networks (Linux)</span>\n<span class="c-green">iwlist</span> <span class="c-blue">wlan0 scan</span> | <span class="c-green">grep</span> <span class="c-orange">ESSID</span>\n\n<span class="c-gray"># nmcli (NetworkManager)</span>\n<span class="c-green">nmcli dev wifi list</span>\n<span class="c-green">nmcli dev wifi connect</span> <span class="c-blue">"SSID"</span> password <span class="c-orange">"pass"</span>\n\n<span class="c-gray"># Check WiFi link quality</span>\n<span class="c-green">iwconfig wlan0</span>`,
+      quiz:{q:'Which WiFi standard introduced MU-MIMO and operates only on 5 GHz?',opts:['802.11n (WiFi 4)','802.11ac (WiFi 5)','802.11ax (WiFi 6)','802.11g'],correct:1,explain:'802.11ac (WiFi 5) introduced MU-MIMO (multi-user, multiple-input, multiple-output) and operates exclusively on the 5 GHz band, offering speeds up to 3.5 Gbps.'}
+    }
+  },
+  {
+    id:8, icon:'☁️', color:'rgba(124,111,255,0.1)', colorAccent:'#7c6fff',
+    title:'Cloud & SDN Networking', level:'Advanced', dur:'45 min', progress:0,
+    desc:'Virtual networks in AWS/GCP/Azure, Software-Defined Networking, overlay networks, and container networking.',
+    content:{
+      sections:[
+        {title:'Virtual Private Clouds', body:'Cloud providers create virtual network environments called VPCs (AWS/GCP) or VNets (Azure). You define CIDR blocks, subnets, route tables, security groups (virtual firewalls), and gateways. Peering connects VPCs. Private Link keeps traffic off the public internet.'},
+        {title:'Software-Defined Networking (SDN)', body:'SDN separates the <strong>control plane</strong> (decides where traffic goes) from the <strong>data plane</strong> (actually forwards packets). A central SDN controller programs all switches via protocols like OpenFlow. Enables dynamic, software-controlled network policies. NFV (Network Function Virtualization) virtualizes routers, firewalls, and load balancers.'},
+        {title:'Container Networking', body:'Docker creates virtual networks (bridge, host, overlay, macvlan). Kubernetes uses CNI plugins (Calico, Flannel, Cilium) to assign pod IPs and handle pod-to-pod communication. Every pod gets its own IP. Services provide stable VIPs via iptables/IPVS.'}
+      ],
+      facts:[{k:'AWS VPC max CIDRs',v:'5 per VPC'},{k:'Kubernetes Service types',v:'ClusterIP, NodePort, LB'},{k:'VXLAN VNID bits',v:'24 (16M segments)'},{k:'OpenFlow port',v:'6633/6653'}],
+      code:`<span class="c-gray"># AWS VPC info (CLI)</span>\n<span class="c-green">aws ec2 describe-vpcs</span>\n<span class="c-green">aws ec2 describe-subnets</span>\n\n<span class="c-gray"># Kubernetes networking</span>\n<span class="c-green">kubectl get pods</span> <span class="c-blue">-o wide</span>  <span class="c-gray"># see pod IPs</span>\n<span class="c-green">kubectl get svc</span>  <span class="c-gray"># see services</span>\n\n<span class="c-gray"># Docker network</span>\n<span class="c-green">docker network ls</span>\n<span class="c-green">docker network inspect bridge</span>`,
+      quiz:{q:'What does SDN separate to enable programmatic network control?',opts:['IPv4 and IPv6','Control plane and data plane','Physical and virtual layers','Routers and switches'],correct:1,explain:'SDN (Software-Defined Networking) decouples the control plane (decision-making logic) from the data plane (packet forwarding), allowing central software controllers to dynamically program network behavior.'}
+    }
+  },
+  {
+    id:9, icon:'⚡', color:'rgba(255,107,107,0.1)', colorAccent:'#ff6b6b',
+    title:'Network Troubleshooting', level:'Advanced', dur:'40 min', progress:0,
+    desc:'Systematic methodology, essential tools (Wireshark, tcpdump, nmap, netstat), and real-world scenarios.',
+    content:{
+      sections:[
+        {title:'Troubleshooting Methodology', body:'Follow the OSI model bottom-up: <strong>Physical</strong> (cables, lights) → <strong>Data Link</strong> (MAC, ARP) → <strong>Network</strong> (ping, route) → <strong>Transport</strong> (ports, firewall) → <strong>Application</strong> (service logs). Isolate, eliminate, and document. Never change two things at once.'},
+        {title:'Essential Tools', body:'<ul><li><strong>ping</strong> — Tests ICMP reachability and latency.</li><li><strong>traceroute/tracert</strong> — Shows path to destination, identifies where packets drop.</li><li><strong>nmap</strong> — Port scanning and host discovery.</li><li><strong>tcpdump/Wireshark</strong> — Full packet capture and analysis.</li><li><strong>netstat/ss</strong> — Show connections and listening ports.</li><li><strong>dig/nslookup</strong> — DNS queries.</li><li><strong>iperf3</strong> — Bandwidth testing between two hosts.</li></ul>'},
+        {title:'Common Scenarios', body:'<strong>Can\'t reach the internet?</strong> Check: cable/WiFi → IP assigned? → Default gateway reachable? → DNS resolving? → Firewall rules?<br><strong>Slow network?</strong> Check: bandwidth (iperf3) → packet loss (ping -c 100) → retransmissions (tcpdump) → MTU issues.'}
+      ],
+      facts:[{k:'ping flood flag',v:'-f (flood mode)'},{k:'traceroute TTL start',v:'1'},{k:'Wireshark capture',v:'.pcap format'},{k:'iperf3 default port',v:'5201'}],
+      code:`<span class="c-gray"># Full troubleshoot sequence</span>\n<span class="c-green">ping</span> <span class="c-blue">-c 4 8.8.8.8</span>     <span class="c-gray"># L3 reachability</span>\n<span class="c-green">traceroute</span> <span class="c-blue">8.8.8.8</span>    <span class="c-gray"># path trace</span>\n<span class="c-green">nmap</span> <span class="c-blue">-p 80,443 google.com</span>\n<span class="c-green">dig</span> <span class="c-blue">+short google.com</span>  <span class="c-gray"># DNS</span>\n<span class="c-green">iperf3</span> <span class="c-blue">-c server-ip</span>    <span class="c-gray"># bandwidth</span>\n<span class="c-green">ss -tulnp</span>              <span class="c-gray"># open ports</span>`,
+      quiz:{q:'When troubleshooting a network issue, what is the recommended approach?',opts:['Start at Layer 7 and work down','Start at Layer 1 and work up','Check all layers simultaneously','Reboot everything first'],correct:1,explain:'The bottom-up approach starts at the Physical layer (Layer 1) and works up through each OSI layer. This systematically eliminates potential causes from the most fundamental to the most complex.'}
+    }
+  }
+];
+
+const OSI_LAYERS = [
+  {num:7,name:'Application',color:'#63d2ff',pdu:'Data',desc:'The topmost layer — interfaces directly with end-user applications. Provides network services to apps like browsers, email clients, and FTP. Protocols at this layer understand the actual content of communication.',protocols:['HTTP','HTTPS','FTP','SMTP','DNS','SSH','SNMP','DHCP'],examples:['Web browsing','Email','File transfer','Remote access'],devices:['Hosts','Servers']},
+  {num:6,name:'Presentation',color:'#7c6fff',pdu:'Data',desc:'Translates data between application format and network format. Handles encryption/decryption, compression, and character encoding (ASCII, Unicode). Often considered part of the application in practice.',protocols:['SSL/TLS','JPEG','MPEG','ASCII','EBCDIC'],examples:['Data encryption','Image compression','Character set conversion'],devices:['Gateways']},
+  {num:5,name:'Session',color:'#a06fff',pdu:'Data',desc:'Establishes, manages, and terminates sessions (conversations) between applications. Handles session checkpointing and recovery. Synchronizes data exchange.',protocols:['NetBIOS','RPC','PPTP','L2TP','NFS'],examples:['Login sessions','Video calls','API sessions'],devices:['Gateways']},
+  {num:4,name:'Transport',color:'#2fffa0',pdu:'Segment',desc:'Provides end-to-end communication and data flow control between hosts. TCP provides reliable delivery with ordering and error correction. UDP provides fast, connectionless delivery.',protocols:['TCP','UDP','SCTP','DCCP'],examples:['Web pages (TCP)','Video streaming (UDP)','VoIP (UDP)'],devices:['Firewalls (L4)','Load balancers']},
+  {num:3,name:'Network',color:'#ffd166',pdu:'Packet / Datagram',desc:'Handles logical addressing (IP) and routing between different networks. Routers operate at this layer. Responsible for determining the best path for data across multiple networks.',protocols:['IP','ICMP','ARP (some)','OSPF','BGP','RIP'],examples:['IP routing','Ping (ICMP)','Traceroute'],devices:['Routers','Layer 3 switches']},
+  {num:2,name:'Data Link',color:'#ff9966',pdu:'Frame',desc:'Provides node-to-node data transfer on the same network segment. Uses MAC addresses. Handles error detection (not correction). Split into LLC (logical) and MAC (physical access) sublayers.',protocols:['Ethernet','WiFi 802.11','ARP','PPP','HDLC','VLANs (802.1Q)'],examples:['Ethernet frames','WiFi packets','MAC addressing'],devices:['Switches','Bridges','NICs']},
+  {num:1,name:'Physical',color:'#ff6b6b',pdu:'Bits',desc:'The lowest layer — deals with the actual physical transmission of raw bits over a medium (copper, fiber, radio waves). Defines electrical signals, voltages, pin layouts, cable specifications, and data rates.',protocols:['Ethernet (physical)','USB','DSL','SONET','802.11 (physical)'],examples:['Cable types','Fiber optic','Radio waves','Voltages'],devices:['Hubs','Repeaters','Cables','NICs']}
+];
+
+const PORTS = [
+  {port:20,proto:'TCP',service:'FTP Data',desc:'File Transfer Protocol (data channel)'},
+  {port:21,proto:'TCP',service:'FTP Control',desc:'File Transfer Protocol (command channel)'},
+  {port:22,proto:'TCP',service:'SSH',desc:'Secure Shell — encrypted remote login'},
+  {port:23,proto:'TCP',service:'Telnet',desc:'Unencrypted remote login (legacy, insecure)'},
+  {port:25,proto:'TCP',service:'SMTP',desc:'Simple Mail Transfer Protocol — sending email'},
+  {port:53,proto:'UDP/TCP',service:'DNS',desc:'Domain Name System — name resolution'},
+  {port:67,proto:'UDP',service:'DHCP Server',desc:'Dynamic Host Configuration Protocol (server)'},
+  {port:68,proto:'UDP',service:'DHCP Client',desc:'Dynamic Host Configuration Protocol (client)'},
+  {port:80,proto:'TCP',service:'HTTP',desc:'HyperText Transfer Protocol — web traffic'},
+  {port:110,proto:'TCP',service:'POP3',desc:'Post Office Protocol v3 — email retrieval'},
+  {port:123,proto:'UDP',service:'NTP',desc:'Network Time Protocol — time synchronization'},
+  {port:143,proto:'TCP',service:'IMAP',desc:'Internet Message Access Protocol — email'},
+  {port:161,proto:'UDP',service:'SNMP',desc:'Simple Network Management Protocol'},
+  {port:179,proto:'TCP',service:'BGP',desc:'Border Gateway Protocol — inter-AS routing'},
+  {port:389,proto:'TCP',service:'LDAP',desc:'Lightweight Directory Access Protocol'},
+  {port:443,proto:'TCP',service:'HTTPS',desc:'HTTP Secure — encrypted web traffic'},
+  {port:445,proto:'TCP',service:'SMB',desc:'Server Message Block — Windows file sharing'},
+  {port:465,proto:'TCP',service:'SMTPS',desc:'SMTP over TLS — secure email sending'},
+  {port:514,proto:'UDP',service:'Syslog',desc:'System logging protocol'},
+  {port:587,proto:'TCP',service:'SMTP/TLS',desc:'SMTP with STARTTLS — email submission'},
+  {port:636,proto:'TCP',service:'LDAPS',desc:'LDAP over SSL — secure directory'},
+  {port:993,proto:'TCP',service:'IMAPS',desc:'IMAP over SSL — secure email'},
+  {port:995,proto:'TCP',service:'POP3S',desc:'POP3 over SSL — secure email retrieval'},
+  {port:1194,proto:'UDP',service:'OpenVPN',desc:'OpenVPN — VPN protocol'},
+  {port:1433,proto:'TCP',service:'MSSQL',desc:'Microsoft SQL Server database'},
+  {port:3306,proto:'TCP',service:'MySQL',desc:'MySQL database server'},
+  {port:3389,proto:'TCP',service:'RDP',desc:'Remote Desktop Protocol — Windows remote'},
+  {port:5432,proto:'TCP',service:'PostgreSQL',desc:'PostgreSQL database server'},
+  {port:5900,proto:'TCP',service:'VNC',desc:'Virtual Network Computing — remote desktop'},
+  {port:6443,proto:'TCP',service:'K8s API',desc:'Kubernetes API server'},
+  {port:8080,proto:'TCP',service:'HTTP Alt',desc:'Alternative HTTP port for web apps'},
+  {port:8443,proto:'TCP',service:'HTTPS Alt',desc:'Alternative HTTPS port'},
+  {port:27017,proto:'TCP',service:'MongoDB',desc:'MongoDB database server'},
+  {port:51820,proto:'UDP',service:'WireGuard',desc:'WireGuard VPN protocol'}
+];
+
+const GLOSSARY = [
+  {term:'ARP',full:'Address Resolution Protocol',def:'Maps IP addresses to MAC addresses within a local network. Sends broadcast, awaits reply.'},
+  {term:'AS',full:'Autonomous System',def:'A network or group of networks under a single administrative domain with a unified routing policy. Identified by ASN.'},
+  {term:'Bandwidth',full:'',def:'The maximum data transfer rate of a network link, usually measured in Mbps or Gbps.'},
+  {term:'BGP',full:'Border Gateway Protocol',def:'The routing protocol of the internet, used to exchange routing information between autonomous systems.'},
+  {term:'CIDR',full:'Classless Inter-Domain Routing',def:'A method for allocating IP addresses and routing using variable-length subnet masking (e.g. 192.168.0.0/24).'},
+  {term:'DHCP',full:'Dynamic Host Configuration Protocol',def:'Automatically assigns IP addresses, subnet masks, gateways, and DNS servers to network clients.'},
+  {term:'DNS',full:'Domain Name System',def:'Translates human-readable domain names (google.com) into IP addresses. A hierarchical distributed database.'},
+  {term:'Encapsulation',full:'',def:'The process of adding headers (and trailers) as data passes down the OSI stack. Each layer wraps the layer above.'},
+  {term:'Firewall',full:'',def:'A network security device that monitors and filters traffic based on predefined rules. Can be hardware or software.'},
+  {term:'FTP',full:'File Transfer Protocol',def:'A protocol for transferring files between client and server. Uses ports 20 (data) and 21 (control). Unencrypted.'},
+  {term:'Gateway',full:'',def:'A device that connects two different networks, often with different protocols. A router is the default gateway for a subnet.'},
+  {term:'HTTP',full:'HyperText Transfer Protocol',def:'The foundation of data communication on the web. Stateless request-response protocol running over TCP port 80.'},
+  {term:'HTTPS',full:'HTTP Secure',def:'HTTP encrypted with TLS/SSL. Uses TCP port 443. Provides authentication, data integrity, and confidentiality.'},
+  {term:'ICMP',full:'Internet Control Message Protocol',def:'Used for diagnostic and error reporting (ping, traceroute). Not used for data transport. IP protocol number 1.'},
+  {term:'IP',full:'Internet Protocol',def:'The principal protocol in the internet layer, providing addressing and routing. IPv4 (32-bit) and IPv6 (128-bit).'},
+  {term:'ISP',full:'Internet Service Provider',def:'A company providing internet access. Assigns public IPs, maintains BGP routes, operates infrastructure.'},
+  {term:'Latency',full:'',def:'The time it takes for a packet to travel from source to destination. Measured in milliseconds (ms).'},
+  {term:'MAC',full:'Media Access Control',def:'A unique hardware identifier for a network interface, typically written as 6 hex pairs (e.g. 00:1A:2B:3C:4D:5E).'},
+  {term:'MTU',full:'Maximum Transmission Unit',def:'The largest packet size that can be transmitted over a network link. Ethernet default is 1500 bytes.'},
+  {term:'NAT',full:'Network Address Translation',def:'Maps private IP addresses to public IPs. Allows many devices to share one public IP (PAT/Overload).'},
+  {term:'NIC',full:'Network Interface Card',def:'Hardware that connects a device to a network. Has a unique MAC address burned in at manufacture.'},
+  {term:'OSPF',full:'Open Shortest Path First',def:'A link-state routing protocol using Dijkstra algorithm. Suitable for large enterprise networks within one AS.'},
+  {term:'OSI',full:'Open Systems Interconnection',def:'A 7-layer conceptual model standardizing network communication. Each layer has a specific role and interfaces.'},
+  {term:'Packet',full:'',def:'A unit of data transmitted over a network. Contains header (routing/control info) and payload (actual data).'},
+  {term:'Port',full:'',def:'A 16-bit number identifying a specific process or service. Well-known ports: 0-1023. Total range: 0-65535.'},
+  {term:'QoS',full:'Quality of Service',def:'Techniques to prioritize certain traffic types (VoIP, video) to ensure performance guarantees.'},
+  {term:'RADIUS',full:'Remote Authentication Dial-In User Service',def:'A networking protocol for centralized authentication, authorization, and accounting (AAA) — used in enterprise WiFi.'},
+  {term:'RFC',full:'Request for Comments',def:'Documents published by the IETF that define internet standards, protocols, and best practices.'},
+  {term:'Router',full:'',def:'A Layer 3 device that forwards packets between different networks based on IP routing tables.'},
+  {term:'SDN',full:'Software-Defined Networking',def:'Separates control plane from data plane. A central controller dynamically programs network behavior via software.'},
+  {term:'SMTP',full:'Simple Mail Transfer Protocol',def:'Protocol for sending email. Uses TCP port 25 (server-to-server) or 587 (client submission with STARTTLS).'},
+  {term:'SNMP',full:'Simple Network Management Protocol',def:'Protocol for managing and monitoring network devices. Uses UDP port 161. SNMPv3 adds security.'},
+  {term:'SSH',full:'Secure Shell',def:'Encrypted protocol for remote command-line access. Replaced Telnet. Uses TCP port 22. Supports tunneling.'},
+  {term:'SSL/TLS',full:'Secure Sockets Layer / Transport Layer Security',def:'Cryptographic protocols providing secure communications. SSL is deprecated; TLS 1.3 is current standard.'},
+  {term:'Subnet',full:'Subnetwork',def:'A logical subdivision of an IP network, created by applying a subnet mask to divide the network and host portions.'},
+  {term:'Switch',full:'',def:'A Layer 2 device that forwards Ethernet frames between devices on the same network based on MAC addresses.'},
+  {term:'TCP',full:'Transmission Control Protocol',def:'Reliable, connection-oriented transport protocol. Guarantees delivery, ordering, and error correction using ACKs.'},
+  {term:'UDP',full:'User Datagram Protocol',def:'Connectionless, unreliable transport protocol. No handshake, no ACKs. Faster than TCP. Used for streaming, DNS, VoIP.'},
+  {term:'VLAN',full:'Virtual Local Area Network',def:'Logical network segment on a physical switch. Isolates traffic. Tagged using 802.1Q. Requires L3 for inter-VLAN routing.'},
+  {term:'VPN',full:'Virtual Private Network',def:'Creates encrypted tunnels over public networks. Types: site-to-site, remote access. Protocols: WireGuard, OpenVPN, IPSec.'},
+  {term:'WAN',full:'Wide Area Network',def:'A network spanning large geographic areas. The Internet is the largest WAN. Operated by ISPs and carriers.'}
+];
+
+const QUIZ_QUESTIONS = [
+  {q:'What layer of the OSI model do switches operate at?',opts:['Layer 1','Layer 2','Layer 3','Layer 4'],correct:1},
+  {q:'Which protocol translates domain names to IP addresses?',opts:['DHCP','ARP','DNS','NAT'],correct:2},
+  {q:'What is the broadcast address of 192.168.1.0/24?',opts:['192.168.1.0','192.168.1.254','192.168.1.255','192.168.255.255'],correct:2},
+  {q:'How many bits are in an IPv6 address?',opts:['32','64','96','128'],correct:3},
+  {q:'Which port does HTTPS use by default?',opts:['80','8080','443','8443'],correct:2},
+  {q:'What does TTL stand for in networking?',opts:['Total Transfer Limit','Time To Live','Traffic Type Label','Tunnel Transfer Layer'],correct:1},
+  {q:'Which routing protocol is classless and uses link-state algorithm?',opts:['RIP v1','OSPF','IGRP','BGP'],correct:1},
+  {q:'What is the default MTU for Ethernet?',opts:['512 bytes','1024 bytes','1500 bytes','9000 bytes'],correct:2},
+  {q:'In TCP\'s three-way handshake, what is sent first?',opts:['ACK','SYN-ACK','FIN','SYN'],correct:3},
+  {q:'Which address class has a default subnet mask of 255.255.0.0?',opts:['Class A','Class B','Class C','Class D'],correct:1},
+  {q:'What does VLAN stand for?',opts:['Virtual LAN','Variable LAN','Verified LAN','Voice LAN'],correct:0},
+  {q:'Which protocol automatically assigns IP addresses?',opts:['ARP','DNS','DHCP','NAT'],correct:2},
+  {q:'What is the loopback address in IPv4?',opts:['0.0.0.0','255.255.255.255','127.0.0.1','169.254.0.1'],correct:2},
+  {q:'What does NAT stand for?',opts:['Network Access Token','Network Address Translation','Node Authentication Table','Null Address Transfer'],correct:1},
+  {q:'Which tool is used to capture and analyze network packets?',opts:['nmap','netstat','Wireshark','traceroute'],correct:2},
+  {q:'What OSI layer handles logical addressing (IP)?',opts:['Layer 2','Layer 3','Layer 4','Layer 5'],correct:1},
+  {q:'Which private IP range is 10.0.0.0 to 10.255.255.255?',opts:['Class A private','Class B private','Class C private','APIPA'],correct:0},
+  {q:'What does UDP prioritize over TCP?',opts:['Reliability','Security','Speed','Ordering'],correct:2},
+  {q:'What WiFi security protocol replaced WPA2 in 2018?',opts:['WEP','WPA','WPA3','WPA2-Enterprise'],correct:2},
+  {q:'How many usable host addresses does a /30 subnet provide?',opts:['2','4','6','14'],correct:0},
+  {q:'Which command shows active network connections on Linux?',opts:['ifconfig','route','ss -tulnp','arp -a'],correct:2},
+  {q:'What is the maximum number of hops RIP v2 supports?',opts:['10','15','16','255'],correct:1},
+  {q:'What type of address is FF:FF:FF:FF:FF:FF?',opts:['Unicast','Multicast','Broadcast','Anycast'],correct:2},
+  {q:'Which DNS record type handles reverse lookups (IP to name)?',opts:['A','AAAA','PTR','MX'],correct:2},
+  {q:'What does CIDR notation /16 represent?',opts:['16 host bits','16 network bits','16 subnets','16 hosts'],correct:1},
+  {q:'Which protocol uses port 22?',opts:['Telnet','FTP','SSH','HTTP'],correct:2},
+  {q:'What is a "collision domain"?',opts:['A network where all traffic is encrypted','A network segment where packets can collide','A failed network switch','A firewall rule conflict'],correct:1},
+  {q:'In SDN, which plane makes routing decisions?',opts:['Data plane','Control plane','Management plane','Forwarding plane'],correct:1},
+  {q:'What is the purpose of a subnet mask?',opts:['Encrypt traffic','Identify network vs host bits','Assign DNS','Block ports'],correct:1},
+  {q:'Which protocol provides time synchronization over networks?',opts:['SNMP','SMTP','NTP','ICMP'],correct:2}
+];
+
+const CHEAT_DATA = [
+  {title:'Private IP Ranges', rows:[
+    {k:'Class A',v:'10.0.0.0/8'},{k:'Class B',v:'172.16.0.0/12'},{k:'Class C',v:'192.168.0.0/16'},
+    {k:'Loopback',v:'127.0.0.0/8'},{k:'APIPA',v:'169.254.0.0/16'},{k:'Link-Local IPv6',v:'FE80::/10'}
+  ]},
+  {title:'CIDR Quick Reference', rows:[
+    {k:'/8',v:'16,777,214 hosts'},{k:'/16',v:'65,534 hosts'},{k:'/24',v:'254 hosts'},
+    {k:'/25',v:'126 hosts'},{k:'/26',v:'62 hosts'},{k:'/28',v:'14 hosts'},{k:'/30',v:'2 hosts'},{k:'/32',v:'1 host'}
+  ]},
+  {title:'TCP vs UDP', rows:[
+    {k:'TCP reliable?',v:'Yes'},{k:'UDP reliable?',v:'No'},{k:'TCP handshake',v:'3-way SYN'},
+    {k:'TCP header',v:'20-60 bytes'},{k:'UDP header',v:'8 bytes'},{k:'TCP use',v:'HTTP, SSH, FTP'},{k:'UDP use',v:'DNS, VoIP, Games'}
+  ]},
+  {title:'OSI Layer Devices', rows:[
+    {k:'Layer 1',v:'Hub, Repeater, Cable'},{k:'Layer 2',v:'Switch, Bridge, NIC'},
+    {k:'Layer 3',v:'Router, L3 Switch'},{k:'Layer 4',v:'Firewall, Load Balancer'},
+    {k:'Layer 7',v:'Proxy, WAF, CDN'}
+  ]},
+  {title:'Common Protocols & Ports', rows:[
+    {k:'HTTP',v:'TCP 80'},{k:'HTTPS',v:'TCP 443'},{k:'SSH',v:'TCP 22'},{k:'DNS',v:'UDP/TCP 53'},
+    {k:'SMTP',v:'TCP 25/587'},{k:'RDP',v:'TCP 3389'},{k:'MySQL',v:'TCP 3306'}
+  ]},
+  {title:'Routing Protocol Comparison', rows:[
+    {k:'RIP',v:'Distance-vector, 15 hop max'},{k:'OSPF',v:'Link-state, Dijkstra'},
+    {k:'BGP',v:'Path-vector, inter-AS'},{k:'EIGRP',v:'Cisco, DUAL algorithm'},
+    {k:'BGP metric',v:'AS-path, MED, Local-Pref'}
+  ]},
+  {title:'IPv6 Address Types', rows:[
+    {k:'Unicast',v:'::1 (loopback)'},{k:'Link-local',v:'FE80::/10'},{k:'Global unicast',v:'2000::/3'},
+    {k:'Multicast',v:'FF00::/8'},{k:'Anycast',v:'Same as unicast range'},{k:'Format',v:'8×4 hex groups'}
+  ]},
+  {title:'Subnetting Powers of 2', rows:[
+    {k:'2^1',v:'2'},{k:'2^4',v:'16'},{k:'2^8',v:'256'},{k:'2^16',v:'65,536'},{k:'2^24',v:'16,777,216'},{k:'2^32',v:'4,294,967,296'}
+  ]}
+];
+
+// ===================== STATE =====================
+let completed = new Set(JSON.parse(localStorage.getItem('nm_done')||'[]'));
+let quizState = {q:0, score:0, answered:false};
+
+// ===================== INIT =====================
+function init() {
+  renderModules();
+  renderOSI();
+  renderCIDRTable();
+  renderPortsTable();
+  renderCheatsheet();
+  renderGlossary();
+  renderQuizArena();
+  calcSubnet();
+  convertBin('dec');
+  updateProgress();
+}
+
+// ===================== MODULES =====================
+function renderModules() {
+  const grid = document.getElementById('modulesGrid');
+  grid.innerHTML = MODULES.map((m,i)=>`
+    <div class="module-card${completed.has(i)?' completed':''}" id="mc${i}" onclick="openLesson(${i})">
+      <div class="checkmark">✓</div>
+      <div class="module-icon" style="background:${m.color};color:${m.colorAccent}">${m.icon}</div>
+      <div class="module-num">MODULE ${String(i+1).padStart(2,'0')}</div>
+      <h3>${m.title}</h3>
+      <p>${m.desc}</p>
+      <div class="module-meta">
+        <span class="module-badge badge-${m.level.toLowerCase()}">${m.level}</span>
+        <span class="module-dur">⏱ ${m.dur}</span>
+      </div>
+      <div class="module-progress"><div class="module-progress-fill" style="width:${completed.has(i)?100:0}%"></div></div>
+    </div>
+  `).join('');
+}
+
+function openLesson(idx) {
+  const m = MODULES[idx];
+  const c = m.content;
+  const panel = document.getElementById('lesson-panel');
+  document.querySelectorAll('.module-card').forEach(x=>x.classList.remove('active'));
+  document.getElementById('mc'+idx).classList.add('active');
+  panel.style.display = 'block';
+  panel.innerHTML = `
+    <div class="lesson-header">
+      <h2>${m.icon} ${m.title}</h2>
+      <button class="close-lesson" onclick="closeLesson()">✕ Close</button>
+    </div>
+    <div class="lesson-body">
+      <div class="lesson-text">
+        ${c.sections.map(s=>`<h3>${s.title}</h3><div>${s.body}</div>`).join('')}
+        <div class="quiz-section">
+          <div class="quiz-q">${c.quiz.q}</div>
+          <div class="quiz-options">
+            ${c.quiz.opts.map((o,i)=>`<button class="quiz-opt" onclick="answerModuleQuiz(this,${i},${c.quiz.correct},${idx},'${c.quiz.explain.replace(/'/g,"\\'")}')">
+              ${String.fromCharCode(65+i)}. ${o}
+            </button>`).join('')}
+          </div>
+          <div id="qfb${idx}" class="quiz-feedback"></div>
+          <button class="complete-btn" id="cbtn${idx}" onclick="markDone(${idx})" style="${completed.has(idx)?'':'opacity:.5;pointer-events:none'}">
+            ${completed.has(idx)?'✓ Completed!':'Answer the quiz to mark complete'}
+          </button>
+        </div>
+      </div>
+      <div class="lesson-aside">
+        <div class="info-box">
+          <h4>Key Facts</h4>
+          ${c.facts.map(f=>`<div class="kv-row"><span class="kv-key">${f.k}</span><span class="kv-val">${f.v}</span></div>`).join('')}
+        </div>
+        <div class="info-box">
+          <h4>Commands</h4>
+          <div class="code-block">${c.code}</div>
+        </div>
+      </div>
+    </div>
+  `;
+  panel.scrollIntoView({behavior:'smooth', block:'start'});
+}
+
+function closeLesson() {
+  document.getElementById('lesson-panel').style.display='none';
+  document.querySelectorAll('.module-card').forEach(x=>x.classList.remove('active'));
+}
+
+function answerModuleQuiz(btn, chosen, correct, idx, explain) {
+  const opts = btn.parentElement.querySelectorAll('.quiz-opt');
+  opts.forEach((o,i)=>{o.disabled=true; if(i===correct)o.classList.add('correct');});
+  const fb = document.getElementById('qfb'+idx);
+  if(chosen===correct){
+    btn.classList.add('correct');
+    fb.className='quiz-feedback correct';
+    fb.textContent='✓ Correct! '+explain;
+    const cb=document.getElementById('cbtn'+idx);
+    cb.style.opacity='1';cb.style.pointerEvents='all';
+  } else {
+    btn.classList.add('wrong');
+    fb.className='quiz-feedback wrong';
+    fb.textContent='✗ Not quite. '+explain;
+  }
+  fb.style.display='block';
+}
+
+function markDone(idx) {
+  completed.add(idx);
+  localStorage.setItem('nm_done', JSON.stringify([...completed]));
+  renderModules();
+  updateProgress();
+  const el=document.getElementById('mc'+idx);
+  if(el) el.querySelector('.module-progress-fill').style.width='100%';
+}
+
+function updateProgress() {
+  document.getElementById('progressBadge').textContent=`${completed.size} / ${MODULES.length} done`;
+}
+
+// ===================== OSI =====================
+function renderOSI() {
+  const c = document.getElementById('osiLayers');
+  c.innerHTML = OSI_LAYERS.map((l,i)=>`
+    <div class="osi-layer" id="osil${i}" onclick="showOSIDetail(${i})">
+      <div class="osi-num" style="background:${l.color}22;color:${l.color};border:1px solid ${l.color}44">${l.num}</div>
+      <div class="osi-info">
+        <div class="osi-name">${l.name}</div>
+        <div class="osi-abbr">PDU: ${l.pdu}</div>
+      </div>
+    </div>
+  `).join('');
+}
+
+function showOSIDetail(i) {
+  const l = OSI_LAYERS[i];
+  document.querySelectorAll('.osi-layer').forEach(x=>x.classList.remove('active'));
+  document.getElementById('osil'+i).classList.add('active');
+  document.getElementById('osiDetail').innerHTML = `
+    <h3 style="color:${l.color}">Layer ${l.num} — ${l.name}</h3>
+    <p>${l.desc}</p>
+    <div class="kv-row"><span class="kv-key">PDU</span><span class="kv-val">${l.pdu}</span></div>
+    <div style="margin-top:1.25rem"><h4 style="font-family:var(--mono);font-size:12px;color:var(--muted);text-transform:uppercase;letter-spacing:.5px;margin-bottom:.6rem">Protocols</h4>
+    <div class="tags">${l.protocols.map(p=>`<span class="tag">${p}</span>`).join('')}</div></div>
+    <div style="margin-top:1.25rem"><h4 style="font-family:var(--mono);font-size:12px;color:var(--muted);text-transform:uppercase;letter-spacing:.5px;margin-bottom:.6rem">Devices</h4>
+    <div class="tags">${l.devices.map(d=>`<span class="tag" style="color:${l.color};border-color:${l.color}44">${d}</span>`).join('')}</div></div>
+    <div style="margin-top:1.25rem"><h4 style="font-family:var(--mono);font-size:12px;color:var(--muted);text-transform:uppercase;letter-spacing:.5px;margin-bottom:.6rem">Examples</h4>
+    <div class="tags">${l.examples.map(e=>`<span class="tag">${e}</span>`).join('')}</div></div>
+  `;
+}
+
+// ===================== TOOLS =====================
+function switchTool(name) {
+  document.querySelectorAll('.tool-pane').forEach(p=>p.classList.remove('active'));
+  document.querySelectorAll('.tool-tab').forEach(t=>t.classList.remove('active'));
+  document.getElementById('tool-'+name).classList.add('active');
+  event.target.classList.add('active');
+  if(name==='cidr') renderCIDRTable();
+  if(name==='ports') renderPortsTable();
+}
+
+// SUBNET CALC
+function calcSubnet() {
+  const ipInput = document.getElementById('subnetIP').value.trim();
+  let cidr = parseInt(document.getElementById('subnetMask').value.trim().replace('/',''));
+  if(isNaN(cidr)){
+    const m=document.getElementById('subnetMask').value.trim().split('.').map(Number);
+    if(m.length===4){
+      cidr=m.reduce((a,b)=>a+b.toString(2).split('').filter(x=>x==='1').length,0);
+    }
+  }
+  const octets = ipInput.split('.').map(Number);
+  if(octets.length!==4||octets.some(x=>isNaN(x)||x<0||x>255)||isNaN(cidr)||cidr<0||cidr>32){
+    document.getElementById('subnetResults').innerHTML=`<div style="color:var(--accent4);font-family:var(--mono);font-size:13px;padding:1rem">Invalid IP or subnet. Try: 192.168.1.0 with CIDR 24</div>`;
+    return;
+  }
+  const ipInt = octets.reduce((a,b)=>(a<<8)|b,0)>>>0;
+  const maskInt = cidr===0?0:(0xFFFFFFFF<<(32-cidr))>>>0;
+  const netInt = (ipInt&maskInt)>>>0;
+  const bcastInt = (netInt|(~maskInt>>>0))>>>0;
+  const firstHost = cidr<31?(netInt+1)>>>0:netInt;
+  const lastHost = cidr<31?(bcastInt-1)>>>0:bcastInt;
+  const totalHosts = Math.pow(2,32-cidr);
+  const usable = cidr<31?totalHosts-2:cidr===31?2:1;
+  const intToIP = n=>`${(n>>>24)&255}.${(n>>>16)&255}.${(n>>>8)&255}.${n&255}`;
+  const maskIP = intToIP(maskInt);
+  const wildcard = intToIP(~maskInt>>>0);
+  document.getElementById('subnetResults').innerHTML = [
+    {l:'Network Address',v:intToIP(netInt)},
+    {l:'Broadcast Address',v:intToIP(bcastInt)},
+    {l:'Subnet Mask',v:maskIP},
+    {l:'Wildcard Mask',v:wildcard},
+    {l:'First Host',v:intToIP(firstHost)},
+    {l:'Last Host',v:intToIP(lastHost)},
+    {l:'Usable Hosts',v:usable.toLocaleString()},
+    {l:'Total Addresses',v:totalHosts.toLocaleString()},
+    {l:'CIDR Notation',v:`/${cidr}`},
+    {l:'IP Class',v:octets[0]<128?'A':octets[0]<192?'B':octets[0]<224?'C':octets[0]<240?'D':'E'}
+  ].map(r=>`<div class="result-card"><div class="result-label">${r.l}</div><div class="result-val">${r.v}</div></div>`).join('');
+  const netBits = cidr;
+  const hostBits = 32-cidr;
+  document.getElementById('subnetVisual').innerHTML = `
+    <div style="font-family:var(--mono);font-size:12px;color:var(--muted);margin-bottom:.5rem">Visual breakdown (32 bits)</div>
+    <div class="subnet-bar-wrap">
+      <div class="subnet-seg" style="width:${(netBits/32)*100}%;background:rgba(99,210,255,0.25);color:var(--accent);border-right:2px solid var(--accent)">${netBits}b Network</div>
+      <div class="subnet-seg" style="width:${(hostBits/32)*100}%;background:rgba(47,255,160,0.15);color:var(--accent3)">${hostBits}b Host</div>
+    </div>
+    <div style="font-family:var(--mono);font-size:12px;color:var(--muted)">Binary mask: ${maskInt.toString(2).padStart(32,'0').replace(/(.{8})/g,'$1 ').trim()}</div>
+  `;
+}
+
+// CIDR TABLE
+function renderCIDRTable() {
+  const rows = [];
+  for(let c=0;c<=32;c++){
+    const maskInt = c===0?0:(0xFFFFFFFF<<(32-c))>>>0;
+    const hosts = Math.pow(2,32-c);
+    const usable = c<31?hosts-2:c===31?2:1;
+    const intToIP = n=>`${(n>>>24)&255}.${(n>>>16)&255}.${(n>>>8)&255}.${n&255}`;
+    rows.push(`<tr><td style="color:var(--accent);font-family:var(--mono)">/${c}</td><td style="font-family:var(--mono);color:var(--muted)">${intToIP(maskInt)}</td><td style="font-family:var(--mono)">${hosts.toLocaleString()}</td><td style="font-family:var(--mono);color:var(--accent3)">${usable.toLocaleString()}</td></tr>`);
+  }
+  document.getElementById('cidrTable').innerHTML=`<div style="overflow-x:auto"><table style="width:100%;border-collapse:collapse;font-size:13px"><thead><tr style="color:var(--muted);font-size:11px;text-transform:uppercase;letter-spacing:.5px;font-family:var(--mono)"><th style="text-align:left;padding:8px 12px">CIDR</th><th style="text-align:left;padding:8px 12px">Subnet Mask</th><th style="text-align:left;padding:8px 12px">Total Addresses</th><th style="text-align:left;padding:8px 12px">Usable Hosts</th></tr></thead><tbody>${rows.map((r,i)=>`<tr style="border-top:1px solid var(--border);${i%2===0?'background:var(--bg2)':''}">${r.replace('<tr>','')}</tr>`).join('')}</tbody></table></div>`;
+}
+
+// PORTS TABLE
+let allPorts = PORTS;
+function renderPortsTable(data) {
+  const ports = data||allPorts;
+  document.getElementById('portsTable').innerHTML=`<div style="overflow-x:auto"><table style="width:100%;border-collapse:collapse;font-size:13px"><thead><tr style="color:var(--muted);font-size:11px;text-transform:uppercase;letter-spacing:.5px;font-family:var(--mono)"><th style="text-align:left;padding:8px 12px;min-width:60px">Port</th><th style="text-align:left;padding:8px 12px">Proto</th><th style="text-align:left;padding:8px 12px">Service</th><th style="text-align:left;padding:8px 12px">Description</th></tr></thead><tbody>${ports.map((p,i)=>`<tr style="border-top:1px solid var(--border);${i%2===0?'background:var(--bg2)':''}"><td style="font-family:var(--mono);color:var(--accent);padding:8px 12px">${p.port}</td><td style="font-family:var(--mono);color:var(--accent2);padding:8px 12px">${p.proto}</td><td style="font-weight:600;padding:8px 12px">${p.service}</td><td style="color:var(--muted);padding:8px 12px">${p.desc}</td></tr>`).join('')}</tbody></table></div>`;
+}
+function filterPorts(){const q=document.getElementById('portsSearch').value.toLowerCase();renderPortsTable(allPorts.filter(p=>p.port.toString().includes(q)||p.service.toLowerCase().includes(q)||p.proto.toLowerCase().includes(q)||p.desc.toLowerCase().includes(q)));}
+
+// SIMULATOR
+function addLog(msg, cls='') {
+  const log = document.getElementById('simLog');
+  const t = new Date().toLocaleTimeString('en',{hour12:false,hour:'2-digit',minute:'2-digit',second:'2-digit'});
+  const div = document.createElement('div');
+  div.className='log-line '+(cls||'');
+  div.innerHTML=`<span>[${t}]</span>${msg}`;
+  log.appendChild(div);
+  log.scrollTop=log.scrollHeight;
+}
+
+function animatePacket(pktEl, pathEl, fromLeft, duration) {
+  return new Promise(resolve=>{
+    pktEl.style.display='block';
+    pktEl.style.left=fromLeft?'0':'calc(100% - 14px)';
+    pktEl.style.background=fromLeft?'var(--accent)':'var(--accent3)';
+    pktEl.style.width='14px'; pktEl.style.height='14px';
+    pktEl.style.transition=`left ${duration}ms linear`;
+    setTimeout(()=>{ pktEl.style.left=fromLeft?'calc(100% - 14px)':'0'; },50);
+    setTimeout(()=>{ pktEl.style.display='none'; resolve(); },duration+100);
+  });
+}
+
+async function runSimulation() {
+  const proto = document.getElementById('simProtocol').value;
+  const scenario = document.getElementById('simScenario').value;
+  document.getElementById('simLog').innerHTML='';
+  addLog(`Starting ${proto} simulation — scenario: ${scenario}`);
+  await sleep(400);
+
+  if(proto==='TCP'&&scenario==='normal'){
+    addLog('Client → [SYN] → Router'); await animatePacket(document.getElementById('simPkt1'),document.getElementById('simPath1'),true,600); await sleep(200);
+    addLog('Router → [SYN] → Server'); await animatePacket(document.getElementById('simPkt2'),document.getElementById('simPath2'),true,600); await sleep(200);
+    addLog('Server → [SYN-ACK] → Router','green'); await animatePacket(document.getElementById('simPkt2'),document.getElementById('simPath2'),false,600); await sleep(200);
+    addLog('Router → [SYN-ACK] → Client','green'); await animatePacket(document.getElementById('simPkt1'),document.getElementById('simPath1'),false,600); await sleep(200);
+    addLog('Client → [ACK] → Server (connection established!)','green'); await animatePacket(document.getElementById('simPkt1'),document.getElementById('simPath1'),true,500); await animatePacket(document.getElementById('simPkt2'),document.getElementById('simPath2'),true,500); await sleep(200);
+    addLog('✓ TCP 3-way handshake complete. Data transfer begins.','green');
+  } else if(scenario==='drop'){
+    addLog(`Client → [${proto} Packet #1] → Router`); await animatePacket(document.getElementById('simPkt1'),document.getElementById('simPath1'),true,600); await sleep(200);
+    addLog('✗ Packet dropped at router! (simulated loss)','red'); await sleep(600);
+    if(proto==='TCP'){addLog('Client timeout — retransmitting...'); await sleep(800); addLog('Client → [Retransmit #1] → Router'); await animatePacket(document.getElementById('simPkt1'),document.getElementById('simPath1'),true,600); await animatePacket(document.getElementById('simPkt2'),document.getElementById('simPath2'),true,600); await sleep(200); addLog('✓ Packet delivered after retransmission','green');}
+    else{addLog('UDP: No retransmission. Packet lost forever.','red');}
+  } else if(scenario==='dns'){
+    addLog('Client → [DNS Query: google.com?] → Router'); await animatePacket(document.getElementById('simPkt1'),document.getElementById('simPath1'),true,600); await animatePacket(document.getElementById('simPkt2'),document.getElementById('simPath2'),true,600); await sleep(300);
+    addLog('Server (DNS) → Querying root servers...'); await sleep(500);
+    addLog('DNS → google.com = 142.250.74.46','green'); await animatePacket(document.getElementById('simPkt2'),document.getElementById('simPath2'),false,600); await animatePacket(document.getElementById('simPkt1'),document.getElementById('simPath1'),false,600); await sleep(200);
+    addLog('✓ DNS resolved! Client now has IP for google.com','green');
+  } else {
+    addLog(`Client → [${proto} Data] → Router`); await animatePacket(document.getElementById('simPkt1'),document.getElementById('simPath1'),true,700);
+    addLog('Router → forwarding → Server'); await animatePacket(document.getElementById('simPkt2'),document.getElementById('simPath2'),true,700); await sleep(200);
+    addLog(`Server → [${proto} ACK] → Client`,'green'); await animatePacket(document.getElementById('simPkt2'),document.getElementById('simPath2'),false,600); await animatePacket(document.getElementById('simPkt1'),document.getElementById('simPath1'),false,600);
+    addLog('✓ Simulation complete','green');
+  }
+}
+
+function sleep(ms){return new Promise(r=>setTimeout(r,ms));}
+
+// BINARY CONVERTER
+function convertBin(from){
+  let dec,bin,hex;
+  if(from==='dec'){dec=parseInt(document.getElementById('binDec').value)||0;dec=Math.min(255,Math.max(0,dec));bin=dec.toString(2).padStart(8,'0');hex=dec.toString(16).toUpperCase().padStart(2,'0');}
+  else if(from==='bin'){bin=document.getElementById('binBin').value.replace(/[^01]/g,'').slice(0,8).padStart(8,'0');dec=parseInt(bin,2);hex=dec.toString(16).toUpperCase().padStart(2,'0');}
+  else{hex=document.getElementById('binHex').value.replace(/[^0-9a-fA-F]/g,'').slice(0,2).toUpperCase();dec=parseInt(hex,16)||0;bin=dec.toString(2).padStart(8,'0');}
+  if(from!=='dec')document.getElementById('binDec').value=dec;
+  if(from!=='bin')document.getElementById('binBin').value=bin;
+  if(from!=='hex')document.getElementById('binHex').value=hex;
+  document.getElementById('binVisual').innerHTML=`<div style="display:flex;gap:4px;flex-wrap:wrap">${bin.split('').map((b,i)=>`<div style="width:44px;height:56px;background:${b==='1'?'rgba(99,210,255,0.15)':'var(--bg3)'};border:1px solid ${b==='1'?'rgba(99,210,255,0.4)':'var(--border)'};border-radius:8px;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:4px"><div style="font-family:var(--mono);font-size:18px;font-weight:700;color:${b==='1'?'var(--accent)':'var(--muted)'}">${b}</div><div style="font-family:var(--mono);font-size:10px;color:var(--muted)">${Math.pow(2,7-i)}</div></div>`).join('')}</div>`;
+}
+
+function ipBinConvert(){
+  const ip=document.getElementById('ipToBin').value.trim().split('.');
+  if(ip.length!==4)return;
+  const bins=ip.map(o=>parseInt(o).toString(2).padStart(8,'0'));
+  document.getElementById('ipBinResult').innerHTML=bins.map((b,i)=>`<span style="color:var(--muted)">${ip[i].padStart(3,' ')} = </span><span style="color:var(--accent)">${b}</span> `).join('<span style="color:var(--muted)">.</span> ');
+}
+
+// QUIZ ARENA
+function renderQuizArena() {
+  if(quizState.q >= QUIZ_QUESTIONS.length){
+    const pct=Math.round((quizState.score/QUIZ_QUESTIONS.length)*100);
+    document.getElementById('quizArenaContent').innerHTML=`
+      <div class="quiz-result">
+        <div style="font-size:3rem">🏆</div>
+        <div class="big-score">${quizState.score}/${QUIZ_QUESTIONS.length}</div>
+        <p>${pct>=80?'Excellent! You really know your networking!':pct>=60?'Good job! Keep studying and you\'ll master it.':'Keep practicing — networking takes time to master.'}</p>
+        <p style="font-family:var(--mono);color:var(--accent)">${pct}% Score</p>
+        <button class="btn btn-primary" onclick="restartQuiz()" style="margin-top:1.5rem">▶ Restart Quiz</button>
+      </div>`;
+    return;
+  }
+  const q = QUIZ_QUESTIONS[quizState.q];
+  const pct = (quizState.q/QUIZ_QUESTIONS.length)*100;
+  document.getElementById('quizArenaContent').innerHTML=`
+    <div class="quiz-progress-bar"><div class="quiz-progress-fill" style="width:${pct}%"></div></div>
+    <div class="quiz-card">
+      <div class="quiz-card-num">Question ${quizState.q+1} of ${QUIZ_QUESTIONS.length}</div>
+      <div class="quiz-card-q">${q.q}</div>
+      <div class="quiz-arena-opts">
+        ${q.opts.map((o,i)=>`<button class="quiz-arena-opt" onclick="answerArena(this,${i},${q.correct})">${String.fromCharCode(65+i)}. ${o}</button>`).join('')}
+      </div>
+      <div class="quiz-nav">
+        <div class="quiz-score-badge">Score: ${quizState.score}/${quizState.q}</div>
+      </div>
+    </div>`;
+}
+
+function answerArena(btn, chosen, correct) {
+  if(quizState.answered) return;
+  quizState.answered = true;
+  const opts = btn.closest('.quiz-arena-opts').querySelectorAll('.quiz-arena-opt');
+  opts.forEach((o,i)=>{o.disabled=true;if(i===correct)o.classList.add('correct');});
+  if(chosen===correct){btn.classList.add('correct');quizState.score++;}
+  else btn.classList.add('wrong');
+  setTimeout(()=>{quizState.q++;quizState.answered=false;renderQuizArena();},1200);
+}
+
+function restartQuiz(){quizState={q:0,score:0,answered:false};renderQuizArena();}
+
+// CHEATSHEET
+function renderCheatsheet() {
+  document.getElementById('cheatGrid').innerHTML = CHEAT_DATA.map(c=>`
+    <div class="cheat-card">
+      <h3>${c.title}</h3>
+      ${c.rows.map(r=>`<div class="cheat-row"><span class="cheat-key">${r.k}</span><span class="cheat-val">${r.v}</span></div>`).join('')}
+    </div>
+  `).join('');
+}
+
+// GLOSSARY
+function renderGlossary(data) {
+  const terms = data||GLOSSARY;
+  document.getElementById('glossaryGrid').innerHTML = terms.map(g=>`
+    <div class="gloss-card">
+      <div class="gloss-term">${g.term}</div>
+      ${g.full?`<div class="gloss-abbr">${g.full}</div>`:''}
+      <div class="gloss-def">${g.def}</div>
+    </div>
+  `).join('');
+}
+function filterGlossary(){const q=document.getElementById('glossarySearch').value.toLowerCase();renderGlossary(GLOSSARY.filter(g=>g.term.toLowerCase().includes(q)||g.full.toLowerCase().includes(q)||g.def.toLowerCase().includes(q)));}
+
+// Smooth nav active on scroll
+const sections = ['learn','osi-section','tools','quiz-arena','reference','glossary'];
+window.addEventListener('scroll',()=>{
+  let cur='';
+  sections.forEach(s=>{const el=document.getElementById(s);if(el&&window.scrollY>=el.offsetTop-80)cur=s;});
+  document.querySelectorAll('.nav-links a').forEach(a=>{
+    a.classList.toggle('active',a.getAttribute('href')==='#'+cur);
+  });
+});
+
+init();
+</script>
+</body>
+</html>
